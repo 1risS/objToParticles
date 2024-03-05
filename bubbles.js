@@ -1,11 +1,9 @@
 import * as THREE from 'three';
 
-import { pointMaterial } from "./main";
-
 let particleCount, particles, positions;
-let _showBubbles = false;
+let _showBubbles = true;
 
-export function initBubbles(scene) {
+export function initBubbles(scene, pointMaterial) {
     particleCount = 2000;
     particles = new THREE.BufferGeometry();
     positions = new Float32Array(particleCount * 3);
@@ -30,7 +28,6 @@ export function showBubbles() {
     _showBubbles = true
 }
 
-
 export function animateBubbles() {
     if (_showBubbles) {
 
@@ -38,21 +35,22 @@ export function animateBubbles() {
 
             const positionAttribute = particles.getAttribute('position');
             const array = positionAttribute.array;
-            let speed = 2;
+            let speed = 1;
+            let acceleration = 0.003;
             for (let i = 0; i < particleCount * 3; i += 3) {
-                array[i + 1] += Math.random() * 0.01 * speed;
-                array[i] += Math.sin(
-                    array[i + 1]
-                    // * Math.random() 
-                    + i
-                ) * 0.01;
+                array[i + 1] += Math.random() * 0.007 * speed;
+                array[i] += Math.sin(array[i + 1] * Math.random() + i) * 0.003;
 
-                // Reset particles that reach top
-                // if (array[i + 1] > 1) {
+                //Reset particles that reach top
+                // if (array[i + 1] > 3) {
                 //     array[i + 1] = -1;
                 //     array[i] = Math.random() * 2 - 1;
                 //     array[i + 2] = Math.random() * 2 - 1;
+                //     speed = 1;
                 // }
+
+                // Increase speed for next iteration
+                speed += acceleration;
             }
 
             positionAttribute.needsUpdate = true;
