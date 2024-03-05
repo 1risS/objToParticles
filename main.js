@@ -7,11 +7,15 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { initBubbles, animateBubbles, showBubbles } from './bubbles.js';
 
+import { setOriginalMeshPoints, animateWaves } from './faceWaves';
+
 export let camera;
 export let scene;
 export let renderer;
 
 let controls, pointsMaterial;
+
+let faceMesh;
 
 const pointsVertexShader = `
 attribute vec3 color;
@@ -108,7 +112,7 @@ void main() {
   // pos = pos + 0.01 * sin(10.0 * pos.x + time);
   // size = size * 0.5;
 
-  pos = pos + 0.001 * snoise(pos*50.0 + time*0.5);
+  pos = pos + 0.001 * snoise(pos*10.0 + time*0.5);
 
   // pos = vec3(rand(pos.xy), rand(pos.yz), rand(pos.xz));
 
@@ -193,14 +197,27 @@ function init() {
         let g = new THREE.BufferGeometry().setFromPoints(pts);
         g.center();
 
-        let p = new THREE.Points(g, pointsMaterial);
+        const colorArray = [];
+        for (let i = 0; i < pts.length; i++) {
+          colorArray.push(1, 1, 1); // Valores iniciales de color blanco para cada punto
+        }
+        const colorAttribute = new THREE.BufferAttribute(new Float32Array(colorArray), 3); // 3 componentes (RGB) por color
 
-        p.scale.setScalar(10)
-        p.rotation.x = Math.PI * 0.5
+        g.setAttribute('color', colorAttribute);
 
-        scene.add(p)
+        faceMesh = new THREE.Points(g, pointsMaterial);
+
+        faceMesh.scale.setScalar(10)
+        faceMesh.rotation.x = Math.PI * 0.5
+
+        setOriginalMeshPoints(faceMesh)
+
+        scene.add(faceMesh)
+
       })
     });
+
+
 
   //luz
   // const light = new THREE.AmbientLight(0x404040); // soft white light
@@ -259,6 +276,7 @@ function animate() {
     pointsMaterial.uniforms.time.value += 0.01;
   }
   animateBubbles(scene);
+  //animateWaves(faceMesh);
   renderer.render(scene, camera);
 }
 
