@@ -7,7 +7,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { initBubbles, animateBubbles, showBubbles } from './bubbles.js';
 
-import { setOriginalMeshPoints, animateWaves } from './faceWaves';
+import { setOriginalMeshPoints, animateFaceUp, animateWaves } from './faceWaves';
+
+import { initAudio } from './audioListener.js'
 
 export let camera;
 export let scene;
@@ -15,13 +17,20 @@ export let renderer;
 
 let controls, pointsMaterial;
 
-let faceMesh;
+let faceMesh, faceBubblesMesh;
 
+let audioInitialize = false;
+
+let analyser;
+
+//control de la posición de los puntos con un shader
 const pointsVertexShader = `
 attribute vec3 color;
 varying vec3 vColor;
 
 uniform float time;
+
+uniform float u_frequency;
 
 float rand(vec2 co){
   return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
@@ -112,7 +121,11 @@ void main() {
   // pos = pos + 0.01 * sin(10.0 * pos.x + time);
   // size = size * 0.5;
 
-  pos = pos + 0.001 * snoise(pos*10.0 + time*0.5);
+  // cambiar el perlin noise por otro menos flameante o probar cambiar los valores 
+
+  pos = pos + 0.003 * sin(pos*7.0 + time*0.125);
+
+  pos = pos + 0.001 * sin( pos.z* (u_frequency *3.5 + 20.0));
 
   // pos = vec3(rand(pos.xy), rand(pos.yz), rand(pos.xz));
 
@@ -126,6 +139,8 @@ const pointsFragmentShader = `
 varying vec3 vColor;
 
 uniform float time;
+
+uniform float u_frequency;
 
 void main() {
   vec3 color = vColor;
@@ -145,29 +160,39 @@ function init() {
   // camara
   camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
   camera.position.set(0, 0, 3);
+
   //escena
   scene = new THREE.Scene();
   //loader
   const loader = new GLTFLoader();
   loader.load(
-    'meshes/cara_02.glb', function (gltf) {
-      new THREE.TextureLoader().load('imgs/pepsi-bubble.png', (texture) => {
+    'meshes/cara_04.glb', function (gltf) {
+      new THREE.TextureLoader().load('imgs/bubble_01.png', (texture) => {
+
+        // Puntos o burbujas png
         // const pointsMaterial = new THREE.PointsMaterial({
         //   color: 'white',
         //   size: 0.05,
+        //   // para tener el estadío 1 mutear los dos maps
+
+        //   // burbujas png 
         //   map: texture,
-        //   //map: createCircleTexture(),
+
+        //   //circulitos
+        //   // map: createCircleTexture(),
         //   transparent: false,
         //   alphaTest: 0.5,
         //   opacity: 1,
         //   blending: THREE.AdditiveBlending
         // });
 
+        //Shader q permite control de puntos y colores - sin png por ahora
         pointsMaterial = new THREE.ShaderMaterial({
           vertexShader: pointsVertexShader,
           fragmentShader: pointsFragmentShader,
           uniforms: {
             time: { value: 0.0 },
+            u_frequency: { type: 'f', value: 0.0 }
           },
           blending: THREE.AdditiveBlending,
           depthTest: false,
@@ -178,9 +203,9 @@ function init() {
 
         const object = gltf.scene;
 
-        // object.position.set(0, 0, 0);
-        // scene.add(object);
-        // object.visible = false;
+        object.position.set(0, 0, 0);
+        scene.add(object);
+        object.visible = false;
 
         let pts = [];
         let v3 = new THREE.Vector3();
@@ -207,26 +232,27 @@ function init() {
 
         faceMesh = new THREE.Points(g, pointsMaterial);
 
-        faceMesh.scale.setScalar(10)
-        faceMesh.rotation.x = Math.PI * 0.5
+        faceMesh.scale.setScalar(10);
+        faceMesh.rotation.x = Math.PI * 0.5;
+        setOriginalMeshPoints(faceMesh);
 
-        setOriginalMeshPoints(faceMesh)
+        faceBubblesMesh = new THREE.Points(g.clone(), pointsMaterial);
+        faceBubblesMesh.scale.setScalar(10);
+        faceBubblesMesh.rotation.x = Math.PI * 0.5;
 
-        scene.add(faceMesh)
-
+        scene.add(faceMesh);
+        //scene.add(faceBubblesMesh);
       })
     });
 
-
-
   //luz
-  // const light = new THREE.AmbientLight(0x404040); // soft white light
-  // light.position.set(10, 10, 10);
-  // scene.add(light);
+  const light = new THREE.AmbientLight(0x404040); // soft white light
+  light.position.set(10, 10, 10);
+  scene.add(light);
 
-  // const pointLight = new THREE.PointLight(0xff0000, 1, 100);
-  // pointLight.position.set(10, 10, 10);
-  // scene.add(pointLight);
+  const pointLight = new THREE.PointLight(0xff0000, 1, 100);
+  pointLight.position.set(10, 10, 10);
+  scene.add(pointLight);
 
   //renderer
   renderer = new WebGLRenderer({ antialias: false });
@@ -274,12 +300,19 @@ function animate() {
   controls.update();
   if (pointsMaterial) {
     pointsMaterial.uniforms.time.value += 0.01;
+    pointsMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
   }
-  animateBubbles(scene);
-  //animateWaves(faceMesh);
+  animateBubbles();
+  animateFaceUp(faceBubblesMesh);
+  // animateWaves(faceMesh, analyser);
   renderer.render(scene, camera);
 }
 
 document.addEventListener('click', function () {
   showBubbles();
+  if (!audioInitialize) {
+    analyser = initAudio(camera);
+    audioInitialize = true;
+  }
+
 })
