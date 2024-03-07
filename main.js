@@ -48,11 +48,11 @@ function init() {
   scene = new THREE.Scene();
 
   // video de fondo
-  const video = document.getElementById( 'video' );
-    video.play();
-    
-    const texture = new THREE.VideoTexture( video );
-    scene.background = texture;
+  const video = document.getElementById('video');
+  video.play();
+
+  const texture = new THREE.VideoTexture(video);
+  scene.background = texture;
 
   // textura burbujas de inicio
   const initBubblesTexture = new THREE.TextureLoader().load('imgs/bubble_03.png', (texture2) => {
@@ -72,8 +72,8 @@ function init() {
       transparent: true,
     });
 
-  // textura burbujas de ambiente
-    const environmentBubblesTexture =  new THREE.TextureLoader().load('imgs/bubble_03.png', (texture3) => {
+    // textura burbujas de ambiente
+    const environmentBubblesTexture = new THREE.TextureLoader().load('imgs/bubble_03.png', (texture3) => {
       envBubblesMaterial = new THREE.ShaderMaterial({
         vertexShader: initBubblesVert,
         fragmentShader: initBubblesFragment,
@@ -90,31 +90,31 @@ function init() {
         transparent: true,
       });
 
-  //loader
-  const loader = new GLTFLoader();
-  loader.load(
-    'meshes/cara_06.glb', function (gltf) {
-      new THREE.TextureLoader().load('imgs/bubble_03.png', (texture) => {
-        //Shader q permite control de puntos y colores  para la cara
+      //loader
+      const loader = new GLTFLoader();
+      loader.load(
+        'meshes/cara_06.glb', function (gltf) {
+          new THREE.TextureLoader().load('imgs/bubble_03.png', (texture) => {
+            //Shader q permite control de puntos y colores  para la cara
 
-        // faceMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
+            // faceMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
 
-        faceMaterial = new THREE.ShaderMaterial({
-          vertexShader: faceBubblesVert,
-          fragmentShader: faceBubblesFragment,
-          uniforms: {
-            u_time: { value: 0.0 },
-            u_frequency: { value: 0.0 },
-            u_texture: { value: texture },
-            u_opacity: { value: 0.2 },
-            u_size: { value: 6.0 }
-          },
-          //blending: THREE.AdditiveBlending,
-          depthTest: true,
-          depthWrite: false,
-          transparent: true,
-        });
-   
+            faceMaterial = new THREE.ShaderMaterial({
+              vertexShader: faceBubblesVert,
+              fragmentShader: faceBubblesFragment,
+              uniforms: {
+                u_time: { value: 0.0 },
+                u_frequency: { value: 0.0 },
+                u_texture: { value: texture },
+                u_opacity: { value: 0.2 },
+                u_size: { value: 6.0 }
+              },
+              //blending: THREE.AdditiveBlending,
+              depthTest: true,
+              depthWrite: false,
+              transparent: true,
+            });
+
             initBubbles(scene, initBubblesMaterial)
 
             initEnvBubbles(scene, envBubblesMaterial)
@@ -172,8 +172,8 @@ function init() {
             //scene.add(faceBubblesMesh);
           })
         })
-      })
-    });
+    })
+  });
 
   //luz
   const light = new THREE.AmbientLight(0x404040); // soft white light
@@ -191,9 +191,9 @@ function init() {
   renderer.setAnimationLoop(animate)
   document.body.appendChild(renderer.domElement);
   window.addEventListener('resize', onWindowResize);
-  
+
   initPostprocessing();
-  
+
   //controles
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
@@ -226,7 +226,7 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  postprocessing.composer.setSize( window.innerWidth, window.innerHeight );
+  postprocessing.composer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {
@@ -244,7 +244,7 @@ function animate() {
   animateFaceUp(faceBubblesMesh);
   // animateWaves(faceMesh, analyser);
   // renderer.render(scene, camera);
-  postprocessing.composer.render( 0.1 );
+  postprocessing.composer.render(0.1);
 }
 
 document.addEventListener('click', function () {
@@ -257,39 +257,39 @@ document.addEventListener('click', function () {
 })
 
 function initPostprocessing() {
-  const renderPass = new RenderPass( scene, camera );
+  const renderPass = new RenderPass(scene, camera);
 
-  const bokehPass = new BokehPass( scene, camera, {
+  const bokehPass = new BokehPass(scene, camera, {
     focus: 1,
     aperture: 0.00025,
     maxblur: 0.01
-  } );
+  });
 
   const outputPass = new OutputPass();
 
-  const composer = new EffectComposer( renderer );
+  const composer = new EffectComposer(renderer);
 
-  composer.addPass( renderPass );
-  composer.addPass( bokehPass );
-  composer.addPass( outputPass );
+  composer.addPass(renderPass);
+  composer.addPass(bokehPass);
+  composer.addPass(outputPass);
 
   postprocessing.composer = composer;
   postprocessing.bokeh = bokehPass;
 }
 
-            // Puntos o burbujas png
-            // pointsMaterial = new THREE.PointsMaterial({
-            //   color: 'white',
-            //   size: 0.05,
-            //   // para tener el estadío 1 mutear los dos maps
+// Puntos o burbujas png
+// pointsMaterial = new THREE.PointsMaterial({
+//   color: 'white',
+//   size: 0.05,
+//   // para tener el estadío 1 mutear los dos maps
 
-            //   // burbujas png 
-            //   map: texture,
+//   // burbujas png
+//   map: texture,
 
-            //   //circulitos
-            //   // map: createCircleTexture(),
-            //   transparent: false,
-            //   alphaTest: 0.5,
-            //   opacity: 1,
-            //   blending: THREE.AdditiveBlending
-            // });
+//   //circulitos
+//   // map: createCircleTexture(),
+//   transparent: false,
+//   alphaTest: 0.5,
+//   opacity: 1,
+//   blending: THREE.AdditiveBlending
+// });
