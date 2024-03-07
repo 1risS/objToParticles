@@ -97,8 +97,8 @@ function init() {
             u_time: { value: 0.0 },
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
-            u_opacity: { value: .4 },
-            u_size: { value: 8.0 }
+            u_opacity: { value: 0.2 },
+            u_size: { value: 6.0 }
           },
           //blending: THREE.AdditiveBlending,
           depthTest: true,
