@@ -11,7 +11,7 @@ export function initEnvBubbles(scene, pointMaterial) {
     for (let i = 0; i < particleCount * 3; i += 3) {
         const x = Math.random() * 2 - 1;
         const y = Math.random() * 0.9 + -1.5;
-        const z = Math.random() * 2 - 1;
+        const z = Math.random() * 8 - 4;
 
         positions[i] = x;
         positions[i + 1] = y;

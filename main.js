@@ -28,8 +28,6 @@ export let camera;
 export let scene;
 export let renderer;
 
-const gui = new GUI();
-
 let controls;
 let pointsMaterial, bubblesMaterial, faceMaterial, envBubblesMaterial, initBubblesMaterial;
 let faceMesh, faceBubblesMesh;
@@ -201,9 +199,9 @@ function init() {
   controls.update();
 
   const effectController = {
-    focus: 500.0,
-    aperture: 5,
-    maxblur: 0.01
+    focus: 40.0,
+    aperture: 10,
+    maxblur: 0.01,
   };
 
   const matChanger = function () {
@@ -216,7 +214,10 @@ function init() {
   gui.add(effectController, 'focus', 10.0, 3000.0, 10).onChange(matChanger);
   gui.add(effectController, 'aperture', 0, 10, 0.1).onChange(matChanger);
   gui.add(effectController, 'maxblur', 0.0, 0.01, 0.001).onChange(matChanger);
+
   gui.close();
+
+  // gui.destroy();
 
   matChanger();
 }
