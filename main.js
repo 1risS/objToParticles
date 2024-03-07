@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three';
 import { WebGLRenderer } from 'three';
+import GUI from 'lil-gui';
 
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -23,10 +24,11 @@ import initBubblesVert from './glsl/initBubbles.vert';
 import faceBubblesFragment from './glsl/faceBubbles.frag';
 import faceBubblesVert from './glsl/faceBubbles.vert';
 
-
 export let camera;
 export let scene;
 export let renderer;
+
+const gui = new GUI();
 
 let controls;
 let pointsMaterial, bubblesMaterial, faceMaterial, envBubblesMaterial, initBubblesMaterial;
@@ -197,6 +199,26 @@ function init() {
   //controles
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
+
+  const effectController = {
+    focus: 500.0,
+    aperture: 5,
+    maxblur: 0.01
+  };
+
+  const matChanger = function () {
+    postprocessing.bokeh.uniforms['focus'].value = effectController.focus;
+    postprocessing.bokeh.uniforms['aperture'].value = effectController.aperture * 0.00001;
+    postprocessing.bokeh.uniforms['maxblur'].value = effectController.maxblur;
+  };
+
+  const gui = new GUI();
+  gui.add(effectController, 'focus', 10.0, 3000.0, 10).onChange(matChanger);
+  gui.add(effectController, 'aperture', 0, 10, 0.1).onChange(matChanger);
+  gui.add(effectController, 'maxblur', 0.0, 0.01, 0.001).onChange(matChanger);
+  gui.close();
+
+  matChanger();
 }
 
 export function createCircleTexture() {
