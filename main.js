@@ -15,21 +15,18 @@ export let camera;
 export let scene;
 export let renderer;
 
-let controls, pointsMaterial;
-
+let controls;
+let pointsMaterial;
 let faceMesh, faceBubblesMesh;
-
-let audioInitialize = false;
-
 let analyser;
+let audioInitialize = false;
 
 //control de la posición de los puntos con un shader
 const pointsVertexShader = `
 attribute vec3 color;
 varying vec3 vColor;
 
-uniform float time;
-
+uniform float u_time;
 uniform float u_frequency;
 
 float rand(vec2 co){
@@ -118,19 +115,19 @@ void main() {
   float size = 10.0;
 
   // Alteration: Displace the points based on a sinewave
-  // pos = pos + 0.01 * sin(10.0 * pos.x + time);
+  // pos = pos + 0.01 * sin(10.0 * pos.x + u_time);
   // size = size * 0.5;
 
   // cambiar el perlin noise por otro menos flameante o probar cambiar los valores 
 
-  pos = pos + 0.003 * sin(pos*7.0 + time*0.125);
+  pos = pos + 0.003 * sin(pos*7.0 + u_time*0.125);
 
   pos = pos + 0.001 * sin( pos.z* (u_frequency *3.5 + 20.0));
 
   // pos = vec3(rand(pos.xy), rand(pos.yz), rand(pos.xz));
 
   vec4 mvPosition = modelViewMatrix * vec4( pos, 1.0 );
-  gl_PointSize = (size / - mvPosition.z);
+  gl_PointSize = (size * 6. / -mvPosition.z);
   gl_Position = projectionMatrix * mvPosition;
 }
 `;
@@ -138,17 +135,20 @@ void main() {
 const pointsFragmentShader = `
 varying vec3 vColor;
 
-uniform float time;
-
+uniform float u_time;
 uniform float u_frequency;
+uniform float u_opacity;
+uniform sampler2D u_texture;
 
 void main() {
+  vec2 uv = vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y);
   vec3 color = vColor;
 
   // Alteration: Add a bit of noise to the color
-  // color = color + 0.4 * sin(time*2.);
+  // color = color + 0.4 * sin(u_time*2.);
 
-  gl_FragColor = vec4(color, 1.0);
+  vec4 tex = texture2D(u_texture, uv);
+  gl_FragColor = vec4(color, u_opacity) * tex;
 }
 `;
 
@@ -170,7 +170,7 @@ function init() {
       new THREE.TextureLoader().load('imgs/bubble_01.png', (texture) => {
 
         // Puntos o burbujas png
-        // const pointsMaterial = new THREE.PointsMaterial({
+        // pointsMaterial = new THREE.PointsMaterial({
         //   color: 'white',
         //   size: 0.05,
         //   // para tener el estadío 1 mutear los dos maps
@@ -191,12 +191,15 @@ function init() {
           vertexShader: pointsVertexShader,
           fragmentShader: pointsFragmentShader,
           uniforms: {
-            time: { value: 0.0 },
-            u_frequency: { type: 'f', value: 0.0 }
+            u_time: { value: 0.0 },
+            u_frequency: { value: 0.0 },
+            u_texture: { value: texture },
+            u_opacity: { value: .5 },
           },
           blending: THREE.AdditiveBlending,
-          depthTest: false,
-          transparent: true
+          depthTest: true,
+          depthWrite: false,
+          transparent: true,
         });
 
         initBubbles(scene, pointsMaterial)
@@ -299,7 +302,7 @@ function onWindowResize() {
 function animate() {
   controls.update();
   if (pointsMaterial) {
-    pointsMaterial.uniforms.time.value += 0.01;
+    pointsMaterial.uniforms.u_time.value += 0.01;
     pointsMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
   }
   animateBubbles();
