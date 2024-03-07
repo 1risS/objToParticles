@@ -5,6 +5,11 @@ import { WebGLRenderer } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
 import { initBubbles, animateBubbles, showBubbles } from './initBubbles.js';
 
 import { initEnvBubbles, animateEnvBubbles, showEnvBubbles } from './envBubbles.js';
@@ -28,6 +33,7 @@ let pointsMaterial, bubblesMaterial, faceMaterial, envBubblesMaterial, initBubbl
 let faceMesh, faceBubblesMesh;
 let analyser;
 let audioInitialize = false;
+const postprocessing = {};
 
 // burbujas
 
@@ -90,6 +96,9 @@ function init() {
     'meshes/cara_06.glb', function (gltf) {
       new THREE.TextureLoader().load('imgs/bubble_03.png', (texture) => {
         //Shader q permite control de puntos y colores  para la cara
+
+        // faceMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
+
         faceMaterial = new THREE.ShaderMaterial({
           vertexShader: faceBubblesVert,
           fragmentShader: faceBubblesFragment,
@@ -182,7 +191,9 @@ function init() {
   renderer.setAnimationLoop(animate)
   document.body.appendChild(renderer.domElement);
   window.addEventListener('resize', onWindowResize);
-
+  
+  initPostprocessing();
+  
   //controles
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
@@ -215,14 +226,15 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  postprocessing.composer.setSize( window.innerWidth, window.innerHeight );
 }
 
 function animate() {
   controls.update();
-  if (faceMaterial) {
-    faceMaterial.uniforms.u_time.value += 0.01;
-    faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
-  }
+  // if (faceMaterial) {
+  //   faceMaterial.uniforms.u_time.value += 0.01;
+  //   faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+  // }
   if (bubblesMaterial) {
     bubblesMaterial.uniforms.u_time.value += 0.01;
     bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
@@ -231,7 +243,8 @@ function animate() {
   animateEnvBubbles();
   animateFaceUp(faceBubblesMesh);
   // animateWaves(faceMesh, analyser);
-  renderer.render(scene, camera);
+  // renderer.render(scene, camera);
+  postprocessing.composer.render( 0.1 );
 }
 
 document.addEventListener('click', function () {
@@ -242,6 +255,27 @@ document.addEventListener('click', function () {
   }
 
 })
+
+function initPostprocessing() {
+  const renderPass = new RenderPass( scene, camera );
+
+  const bokehPass = new BokehPass( scene, camera, {
+    focus: 1,
+    aperture: 0.00025,
+    maxblur: 0.01
+  } );
+
+  const outputPass = new OutputPass();
+
+  const composer = new EffectComposer( renderer );
+
+  composer.addPass( renderPass );
+  composer.addPass( bokehPass );
+  composer.addPass( outputPass );
+
+  postprocessing.composer = composer;
+  postprocessing.bokeh = bokehPass;
+}
 
             // Puntos o burbujas png
             // pointsMaterial = new THREE.PointsMaterial({
