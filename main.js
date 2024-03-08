@@ -60,6 +60,7 @@ function init() {
       vertexShader: initBubblesVert,
       fragmentShader: initBubblesFragment,
       uniforms: {
+        u_resolution: { value: [window.innerWidth, window.innerHeight] },
         u_time: { value: 0.0 },
         u_frequency: { value: 0.0 },
         u_texture: { value: texture2 },
@@ -78,6 +79,7 @@ function init() {
         vertexShader: initBubblesVert,
         fragmentShader: initBubblesFragment,
         uniforms: {
+          u_resolution: { value: [window.innerWidth, window.innerHeight] },
           u_time: { value: 0.0 },
           u_frequency: { value: 0.0 },
           u_texture: { value: texture3 },
@@ -95,24 +97,26 @@ function init() {
       loader.load(
         'meshes/cara_06.glb', function (gltf) {
           new THREE.TextureLoader().load('imgs/bubble_03.png', (texture) => {
-            //Shader q permite control de puntos y colores  para la cara
-
+            //Shader de prueba para los modelos nuevos de Ema
             // faceMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
 
+            //Shader q permite control de puntos y colores  para la cara
             faceMaterial = new THREE.ShaderMaterial({
               vertexShader: faceBubblesVert,
               fragmentShader: faceBubblesFragment,
               uniforms: {
+                u_resolution: { value: [window.innerWidth, window.innerHeight] },
                 u_time: { value: 0.0 },
                 u_frequency: { value: 0.0 },
                 u_texture: { value: texture },
                 u_opacity: { value: 0.2 },
                 u_size: { value: 6.0 }
               },
-              //blending: THREE.AdditiveBlending,
+              // blending: THREE.AdditiveBlending,
               depthTest: true,
               depthWrite: false,
               transparent: true,
+              // lights: true,
             });
 
             initBubbles(scene, initBubblesMaterial)
@@ -254,10 +258,10 @@ function onWindowResize() {
 
 function animate() {
   controls.update();
-  // if (faceMaterial) {
-  //   faceMaterial.uniforms.u_time.value += 0.01;
-  //   faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
-  // }
+  if (faceMaterial) {
+    faceMaterial.uniforms.u_time.value += 0.01;
+    faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+  }
   if (bubblesMaterial) {
     bubblesMaterial.uniforms.u_time.value += 0.01;
     bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
