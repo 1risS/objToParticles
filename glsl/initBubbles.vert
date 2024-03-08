@@ -1,5 +1,7 @@
 attribute vec3 color;
 varying vec3 vColor;
+varying float vVisibility;
+varying vec3 vViewNormal;
 
 uniform float u_time;
 uniform float u_frequency;

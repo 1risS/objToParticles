@@ -59,6 +59,11 @@ function init() {
     initBubblesMaterial = new THREE.ShaderMaterial({
       vertexShader: initBubblesVert,
       fragmentShader: initBubblesFragment,
+      // lights: true,
+      // onBeforeCompile: (shader) => {
+      //   console.log("vertex", shader.vertexShader);
+      //   console.log("fragment", shader.fragmentShader);
+      // },
       uniforms: {
         u_resolution: { value: [window.innerWidth, window.innerHeight] },
         u_time: { value: 0.0 },
@@ -112,11 +117,10 @@ function init() {
                 u_opacity: { value: 0.2 },
                 u_size: { value: 6.0 }
               },
-              // blending: THREE.AdditiveBlending,
+              // blending: THREE.AdditiveBlending, 
               depthTest: true,
               depthWrite: false,
               transparent: true,
-              // lights: true,
             });
 
             initBubbles(scene, initBubblesMaterial)
