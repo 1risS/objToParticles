@@ -19,8 +19,7 @@ void main() {
 
 
   // control del movimiento con el audio
-  pos = pos + 0.0005 * 
-  vec3(sin( pos.x* (u_frequency * 0.01 + 0.01)), sin( pos.y* (u_frequency *0.01 + .01)), sin( pos.z* (u_frequency * 0.01 + .01)));
+  pos = pos + 0.0005 * vec3(pos.x, pos.y * (u_frequency * 0.5 + 1.0),  pos.z);
 
   vec4 mvPosition = modelViewMatrix * vec4( pos, 1.0 );
   gl_PointSize = (size * u_size / -mvPosition.z);

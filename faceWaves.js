@@ -109,5 +109,5 @@ export function animateWaves(mesh, analyser) {
 
     }
 
-    positions.needsUpdate = true;
+    positions.needsUpdate = false;
 }
