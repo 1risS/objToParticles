@@ -7,6 +7,7 @@ import initBubblesVert from './glsl/initBubbles.vert';
 import { setOriginalMeshPoints } from './faceWaves';
 import { initBubbles } from './initBubbles.js'
 import { initEnvBubbles } from './envBubbles.js'
+import { initColumnBubbles } from './columnBubbles.js'
 import { showBubbles } from './initBubbles.js';
 import { initAudio } from './audioListener.js'
 import { camera } from './main.js'
@@ -18,6 +19,7 @@ let audioInitialize = false;
 let faceBubblesUpMaterial;
 let envBubblesMaterial;
 let initBubblesMaterial;
+let columnBubblesMaterial;
 let faceMesh;
 export let faceBubblesMesh;
 let analyser;
@@ -124,7 +126,7 @@ export function loadModels(scene) {
                             u_time: { value: 0.0 },
                             u_frequency: { value: 0.0 },
                             u_texture: { value: texture2 },
-                            u_opacity: { value: 0.1 },
+                            u_opacity: { value: 0.8 },
                             u_size: { value: 20.0 }
                         },
                         blending: THREE.AdditiveBlending,
@@ -154,6 +156,26 @@ export function loadModels(scene) {
                         transparent: true,
                     });
                     initEnvBubbles(scene, envBubblesMaterial);
+                });
+
+                const columnBubblesTexture = new THREE.TextureLoader().load('imgs/bubble_03.png', (texture4) => {
+                    columnBubblesMaterial = new THREE.ShaderMaterial({
+                        vertexShader: initBubblesVert,
+                        fragmentShader: initBubblesFragment,
+                        uniforms: {
+                            u_resolution: { value: [window.innerWidth, window.innerHeight] },
+                            u_time: { value: 0.0 },
+                            u_frequency: { value: 0.0 },
+                            u_texture: { value: texture4 },
+                            u_opacity: { value: .75 },
+                            u_size: { value: 20.0 }
+                        },
+                        blending: THREE.AdditiveBlending,
+                        depthTest: true,
+                        depthWrite: false,
+                        transparent: true,
+                    });
+                    initColumnBubbles(scene, columnBubblesMaterial);
                 });
 
 

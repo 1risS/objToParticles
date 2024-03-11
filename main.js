@@ -12,13 +12,15 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 import { animateBubbles } from './initBubbles.js';
 
-import { animateEnvBubbles, showEnvBubbles } from './envBubbles.js';
+import { animateEnvBubbles } from './envBubbles.js';
 
-import { setOriginalMeshPoints, animateFaceUp, animateWaves } from './faceWaves';
+import { animateFaceUp } from './faceWaves';
 
 import { faceBubblesMesh } from './modelLoaders.js'
 
 import { loadModels } from './modelLoaders.js'
+
+import { animateColumnBubbles } from './columnBubbles.js'
 
 export let camera;
 export let scene;
@@ -134,12 +136,11 @@ function onWindowResize() {
 
 function animate() {
   controls.update();
-
-
   // fadingInFace(faceMesh);
   animateBubbles();
   animateEnvBubbles();
-  animateFaceUp(faceBubblesMesh);
+  animateColumnBubbles();
+  // animateFaceUp(faceBubblesMesh);
   // animateWaves(faceMesh, analyser);
   // renderer.render(scene, camera);
   postprocessing.composer.render(0.1);

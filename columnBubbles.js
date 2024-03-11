@@ -3,15 +3,15 @@ import * as THREE from 'three';
 let particleCount, particles, positions;
 let _showBubbles = true;
 
-export function initColumnBubbles(scene, pointMaterial) {
+export function initColumnBubbles(scene, initBubblesMaterial) {
     particleCount = 1000;
     particles = new THREE.BufferGeometry();
     positions = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-        const x = Math.random() * 2 - 1;
-        const y = Math.random() * 0.9 + -1.5;
-        const z = Math.random() * 2 - 1;
+        const x = Math.random() * 0.3 - 0.15;
+        const y = Math.random() * 2 - 0.8;
+        const z = Math.random() * 2 - 0.5;
 
         positions[i] = x;
         positions[i + 1] = y;
@@ -20,7 +20,7 @@ export function initColumnBubbles(scene, pointMaterial) {
 
     particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const particleSystem = new THREE.Points(particles, pointMaterial);
+    const particleSystem = new THREE.Points(particles, initBubblesMaterial);
     scene.add(particleSystem);
 }
 
@@ -41,7 +41,7 @@ export function animateColumnBubbles() {
                 array[i + 1] += Math.random() * 0.004 * speed;
                 array[i] += Math.sin(array[i + 1] * Math.random() + i) * 0.003;
 
-                //Reset particles that reach top
+                // Reset particles that reach top
                 // if (array[i + 1] > 3) {
                 //     acceleration = 0.000003;
 
