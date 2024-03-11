@@ -157,7 +157,7 @@ export function loadModels(scene) {
                     });
                     initEnvBubbles(scene, envBubblesMaterial);
                 });
-
+                // shader para la columna de burbujas
                 const columnBubblesTexture = new THREE.TextureLoader().load('imgs/bubble_03.png', (texture4) => {
                     columnBubblesMaterial = new THREE.ShaderMaterial({
                         vertexShader: initBubblesVert,
@@ -175,7 +175,7 @@ export function loadModels(scene) {
                         depthWrite: false,
                         transparent: true,
                     });
-                    initColumnBubbles(scene, columnBubblesMaterial);
+                    // initColumnBubbles(scene, columnBubblesMaterial);
                 });
 
 
