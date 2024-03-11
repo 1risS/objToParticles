@@ -17,13 +17,13 @@ export let faceMaterial;
 export let bubblesMaterial;
 export let faceBubblesMesh;
 export let analyser;
+export let faceMesh;
 
 let audioInitialize = false;
 let faceBubblesUpMaterial;
 let envBubblesMaterial;
 let initBubblesMaterial;
 let columnBubblesMaterial;
-let faceMesh;
 
 export function loadModels(scene) {
     const loader = new GLTFLoader();

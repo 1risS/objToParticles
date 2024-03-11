@@ -9,12 +9,12 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 
+import { animateColumnBubbles } from './columnBubbles.js';
 import { animateEnvBubbles } from './envBubbles.js';
+import { animateWaves } from './faceWaves.js';
 import { updateFaceOpacity } from './fadeInFace.js';
 import { animateBubbles } from './initBubbles.js';
-import { analyser, bubblesMaterial, faceMaterial, loadModels } from './modelLoaders.js';
-
-import { animateColumnBubbles } from './columnBubbles.js';
+import { analyser, bubblesMaterial, faceMaterial, faceMesh, loadModels } from './modelLoaders.js';
 
 export let camera;
 export let scene;
@@ -147,7 +147,7 @@ function animate() {
   animateEnvBubbles();
   animateColumnBubbles();
   // animateFaceUp(faceBubblesMesh);
-  // animateWaves(faceMesh, analyser);
+  animateWaves(faceMesh, analyser);
   // renderer.render(scene, camera);
   postprocessing.composer.render(0.1);
 }
