@@ -10,23 +10,11 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 
 import { animateEnvBubbles } from './envBubbles.js';
-import { animateFaceUp } from './faceWaves';
 import { updateFaceOpacity } from './fadeInFace.js';
 import { animateBubbles } from './initBubbles.js';
-<<<<<<< HEAD
+import { analyser, bubblesMaterial, faceMaterial, loadModels } from './modelLoaders.js';
 
-import { animateEnvBubbles } from './envBubbles.js';
-
-import { animateFaceUp } from './faceWaves';
-
-import { faceBubblesMesh } from './modelLoaders.js'
-
-import { loadModels } from './modelLoaders.js'
-=======
-import { faceBubblesMesh, bubblesMaterial, faceMaterial, loadModels, analyser } from './modelLoaders.js';
->>>>>>> github/main
-
-import { animateColumnBubbles } from './columnBubbles.js'
+import { animateColumnBubbles } from './columnBubbles.js';
 
 export let camera;
 export let scene;
