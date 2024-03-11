@@ -138,6 +138,7 @@ function animate() {
     faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
   }
   if (bubblesMaterial) {
+    updateFaceOpacity(faceMaterial.uniforms.u_opacity);
     bubblesMaterial.uniforms.u_time.value += 0.01;
     bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
   }

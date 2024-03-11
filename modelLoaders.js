@@ -236,7 +236,7 @@ export function loadModels(scene) {
                 scene.add(faceMesh);
 
                 // copia de la cara que asciende
-                scene.add(faceBubblesMesh);
+                // scene.add(faceBubblesMesh);
             })
             console.log('esto es en modelLoaders fuera de la fx de load', faceMaterial)
         })
