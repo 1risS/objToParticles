@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { initAudio } from './audioListener';
+// import { initAudio } from './audioListener';
 
 
 let time = 0
 let waveOrigin = new THREE.Vector3(0, 0, 0); // Punto de origen de la onda
-let waveStrength = 0.05; // Fuerza de la onda
+// let waveStrength = 0.05; // Fuerza de la onda
 
 let originalPoints
 
@@ -33,6 +33,10 @@ export function animateFaceUp(mesh) {
         const position = new THREE.Vector3(x, y, z);
 
         position.z -= 0.0008;
+
+        //cómo hacer para que suban dispersandose en los ejes x e y? 
+
+
         // position.x += acceleration * Math.random() * originalPositions.getX(i);
         // position.z -= Math.random() * 0.001 * speed;
         // position.x += Math.sin(originalPositions.getY(i) * Math.random() + i) * 0.0003;

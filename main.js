@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { WebGLRenderer } from 'three';
 import GUI from 'lil-gui';
 
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
@@ -11,31 +10,26 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-import { initBubbles, animateBubbles, showBubbles } from './initBubbles.js';
+import { animateBubbles } from './initBubbles.js';
 
-import { initEnvBubbles, animateEnvBubbles, showEnvBubbles } from './envBubbles.js';
+import { animateEnvBubbles, showEnvBubbles } from './envBubbles.js';
 
 import { setOriginalMeshPoints, animateFaceUp, animateWaves } from './faceWaves';
 
-import { initAudio } from './audioListener.js'
+import { faceBubblesMesh } from './modelLoaders.js'
 
-import initBubblesFragment from './glsl/initBubbles.frag';
-import initBubblesVert from './glsl/initBubbles.vert';
-import faceBubblesFragment from './glsl/faceBubbles.frag';
-import faceBubblesVert from './glsl/faceBubbles.vert';
+import { loadModels } from './modelLoaders.js'
 
 export let camera;
 export let scene;
 export let renderer;
 
 let controls;
-let pointsMaterial, bubblesMaterial, faceMaterial, envBubblesMaterial, initBubblesMaterial;
-let faceMesh, faceBubblesMesh;
-let analyser;
-let audioInitialize = false;
+let pointsMaterial;
+let faceOpacity;
 const postprocessing = {};
 
-// burbujas
+
 
 init();
 
@@ -54,134 +48,9 @@ function init() {
   const texture = new THREE.VideoTexture(video);
   scene.background = texture;
 
-  // textura burbujas de inicio
-  const initBubblesTexture = new THREE.TextureLoader().load('imgs/bubble_03.png', (texture2) => {
-    initBubblesMaterial = new THREE.ShaderMaterial({
-      vertexShader: initBubblesVert,
-      fragmentShader: initBubblesFragment,
-      // lights: true,
-      // onBeforeCompile: (shader) => {
-      //   console.log("vertex", shader.vertexShader);
-      //   console.log("fragment", shader.fragmentShader);
-      // },
-      uniforms: {
-        u_resolution: { value: [window.innerWidth, window.innerHeight] },
-        u_time: { value: 0.0 },
-        u_frequency: { value: 0.0 },
-        u_texture: { value: texture2 },
-        u_opacity: { value: .75 },
-        u_size: { value: 20.0 }
-      },
-      blending: THREE.AdditiveBlending,
-      depthTest: true,
-      depthWrite: false,
-      transparent: true,
-    });
 
-    // textura burbujas de ambiente
-    const environmentBubblesTexture = new THREE.TextureLoader().load('imgs/bubble_03.png', (texture3) => {
-      envBubblesMaterial = new THREE.ShaderMaterial({
-        vertexShader: initBubblesVert,
-        fragmentShader: initBubblesFragment,
-        uniforms: {
-          u_resolution: { value: [window.innerWidth, window.innerHeight] },
-          u_time: { value: 0.0 },
-          u_frequency: { value: 0.0 },
-          u_texture: { value: texture3 },
-          u_opacity: { value: .75 },
-          u_size: { value: 18.0 }
-        },
-        blending: THREE.AdditiveBlending,
-        depthTest: true,
-        depthWrite: false,
-        transparent: true,
-      });
-
-      //loader
-      const loader = new GLTFLoader();
-      loader.load(
-        'meshes/cara_06.glb', function (gltf) {
-          new THREE.TextureLoader().load('imgs/bubble_03.png', (texture) => {
-            //Shader de prueba para los modelos nuevos de Ema
-            // faceMaterial = new THREE.MeshPhysicalMaterial({color: 0xffffff})
-
-            //Shader q permite control de puntos y colores  para la cara
-            faceMaterial = new THREE.ShaderMaterial({
-              vertexShader: faceBubblesVert,
-              fragmentShader: faceBubblesFragment,
-              uniforms: {
-                u_resolution: { value: [window.innerWidth, window.innerHeight] },
-                u_time: { value: 0.0 },
-                u_frequency: { value: 0.0 },
-                u_texture: { value: texture },
-                u_opacity: { value: 0.2 },
-                u_size: { value: 6.0 }
-              },
-              // blending: THREE.AdditiveBlending, 
-              depthTest: true,
-              depthWrite: false,
-              transparent: true,
-            });
-
-            initBubbles(scene, initBubblesMaterial)
-
-            initEnvBubbles(scene, envBubblesMaterial)
-
-            const object = gltf.scene;
-
-            object.position.set(0, 0, 0);
-            scene.add(object);
-            object.visible = false;
-
-            let pts = [];
-            let v3 = new THREE.Vector3();
-            object.traverse(child => {
-              if (child.isMesh) {
-                let pos = child.geometry.attributes.position;
-                for (let i = 0; i < pos.count * 3; i++) {
-                  v3.fromBufferAttribute(pos, i);
-                  pts.push(v3.clone());
-                }
-              }
-            });
-
-            let g = new THREE.BufferGeometry().setFromPoints(pts);
-            g.center();
-
-            // Bubble colors (unused)
-            const colorArray = [];
-            for (let i = 0; i < pts.length; i++) {
-              colorArray.push(1, 1, 1); // Valores iniciales de color blanco para cada punto
-            }
-            const colorAttribute = new THREE.BufferAttribute(new Float32Array(colorArray), 3); // 3 componentes (RGB) por color
-            g.setAttribute('color', colorAttribute);
-
-            // Bubble sizes
-            const sizeArray = [];
-            for (let i = 0; i < pts.length; i++) {
-              sizeArray.push((Math.random() * 25.0));
-            }
-            const sizeAttribute = new THREE.BufferAttribute(new Float32Array(sizeArray), 1);
-            g.setAttribute('size', sizeAttribute);
-
-            faceMesh = new THREE.Points(g, faceMaterial);
-
-            faceMesh.scale.setScalar(10);
-            faceMesh.rotation.x = Math.PI * 0.5;
-            setOriginalMeshPoints(faceMesh);
-
-            // copia de la cara que asciende
-            faceBubblesMesh = new THREE.Points(g.clone(), pointsMaterial);
-            faceBubblesMesh.scale.setScalar(10);
-            faceBubblesMesh.rotation.x = Math.PI * 0.5;
-
-            scene.add(faceMesh);
-            // copia de la cara que asciende
-            //scene.add(faceBubblesMesh);
-          })
-        })
-    })
-  });
+  //loader
+  loadModels(scene);
 
   //luz
   const light = new THREE.AmbientLight(0x404040); // soft white light
@@ -206,10 +75,12 @@ function init() {
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
+  // profundidad de campo
+
   const effectController = {
-    focus: 40.0,
-    aperture: 10,
-    maxblur: 0.01,
+    focus: 0.0,
+    aperture: 0.0,
+    maxblur: 0.0,
   };
 
   const matChanger = function () {
@@ -225,11 +96,12 @@ function init() {
 
   gui.close();
 
-  // gui.destroy();
+  gui.destroy();
 
   matChanger();
 }
 
+// textura de círculos para reemplazar los cuadrados del PointsMaterial
 export function createCircleTexture() {
   const size = 64;
   const canvas = document.createElement('canvas');
@@ -262,14 +134,9 @@ function onWindowResize() {
 
 function animate() {
   controls.update();
-  if (faceMaterial) {
-    faceMaterial.uniforms.u_time.value += 0.01;
-    faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
-  }
-  if (bubblesMaterial) {
-    bubblesMaterial.uniforms.u_time.value += 0.01;
-    bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
-  }
+
+
+  // fadingInFace(faceMesh);
   animateBubbles();
   animateEnvBubbles();
   animateFaceUp(faceBubblesMesh);
@@ -277,15 +144,6 @@ function animate() {
   // renderer.render(scene, camera);
   postprocessing.composer.render(0.1);
 }
-
-document.addEventListener('click', function () {
-  showBubbles();
-  if (!audioInitialize) {
-    analyser = initAudio(camera);
-    audioInitialize = true;
-  }
-
-})
 
 function initPostprocessing() {
   const renderPass = new RenderPass(scene, camera);
@@ -301,7 +159,7 @@ function initPostprocessing() {
   const composer = new EffectComposer(renderer);
 
   composer.addPass(renderPass);
-  composer.addPass(bokehPass);
+  // composer.addPass(bokehPass);
   composer.addPass(outputPass);
 
   postprocessing.composer = composer;
