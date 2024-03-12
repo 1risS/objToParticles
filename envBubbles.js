@@ -43,7 +43,7 @@ export function animateEnvBubbles() {
 
                 // Reset particles that reach top
                 if (array[i + 1] > 3) {
-                    acceleration = 0.000003;
+                    acceleration = 0.0003;
 
                     array[i + 1] = -2;
                     array[i] = Math.random() * 2 - 1;

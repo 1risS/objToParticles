@@ -1,6 +1,6 @@
-
 import * as THREE from 'three';
-
+import faceBubblesFragment from './glsl/faceBubbles.frag';
+import faceBubblesVert from './glsl/faceBubbles.vert';
 
 let positions
 let bubbles = []
@@ -17,7 +17,7 @@ export function setup(mesh, scene) {
     positions = originalGeometry.attributes.position;
 
     const targetY = -0.04241231456398964;
-    const threshold = 0.01; 
+    const threshold = 0.01;
     const filteredPositions = [];
     for (let i = 0; i < positions.count; i++) {
         const x = positions.getX(i);
@@ -51,21 +51,19 @@ export function update() {
         }
     }
 }
-function addBubbleToGroup() {
-
+function addBubbleToGroupOld() {
     const radius = 0.001;
     const widthSegments = 32;
     const heightSegments = 32;
     const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
-    // const sphereMaterial = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const sphereMaterial = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
+    // const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
     if (bubbles.length >= 10) {
-        // Si hay más de 3 elementos, eliminar el más antiguo
-        const oldestBubble = bubbles.shift(); // Eliminar el primer elemento del array 'bubbles'
-        bubbleGroup.remove(oldestBubble); // Remover la esfera del grupo
+        const oldestBubble = bubbles.shift();
+        bubbleGroup.remove(oldestBubble);
     }
 
     let index = parseInt(positions.count * Math.random())
@@ -85,4 +83,52 @@ function addBubbleToGroup() {
     setTimeout(function () {
         addBubbleToGroup()
     }, 100)
+}
+
+function addBubbleToGroup() {
+    const radius = 0.001;
+    const sphereGeometry = new THREE.SphereGeometry(radius, 32, 32);
+
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+        'imgs/burb_a_negro.png',
+        function (texture) {
+            const material = new THREE.MeshMatcapMaterial(
+                {
+                    matcap: texture,
+                    transparent: true,
+                    alphaTest: 0.5,
+                    // side: THREE.DoubleSide,
+                    // opacity: 0.26,
+                });
+            const sphere = new THREE.Mesh(sphereGeometry, material);
+
+            if (bubbles.length >= 20) {
+                const oldestBubble = bubbles.shift();
+                bubbleGroup.remove(oldestBubble);
+            }
+
+            let index = parseInt(positions.count * Math.random())
+            // console.log(index)
+            let x = positions.getX(index)
+            let y = positions.getY(index)
+            let z = positions.getZ(index)
+
+            sphere.position.x = x
+            sphere.position.y = y
+            sphere.position.z = z
+
+            bubbleGroup.add(sphere)
+            bubbles.push(sphere)
+            // console.log(bubbles)
+            // console.log(bubbles[0].position.x)
+            setTimeout(function () {
+                addBubbleToGroup()
+            }, 100)
+        },
+        undefined,
+        function (error) {
+            console.error('Error al cargar la textura Matcap:', error);
+        }
+    );
 }

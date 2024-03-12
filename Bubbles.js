@@ -23,15 +23,14 @@ let audioInitialized = false;
 let faceBubblesUpMaterial;
 let envBubblesMaterial;
 let initBubblesMaterial;
-let columnBubblesMaterial;
 
 export async function loadAssetsAndSetup(scene) {
     return new Promise((resolve, reject) => {
         const loader = new GLTFLoader();
         loader.load('meshes/nuevaCara5.glb', function (gltf) {
-            new THREE.TextureLoader().load('imgs/bubble_03.png', (texture) => {
+
+            new THREE.TextureLoader().load('imgs/burb_a.png', (texture) => {
                 faceMaterial = createFaceMaterial(texture);
-                faceBubblesUpMaterial = createFaceBubblesUpMaterial(texture);
                 initBubblesMaterial = createInitBubblesMaterial(texture);
                 envBubblesMaterial = createEnvBubblesMaterial(texture);
                 initBubbles(scene, initBubblesMaterial)
@@ -94,27 +93,8 @@ function createFaceMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: 0.0 },
-            u_size: { value: 7.0 }
+            u_size: { value: 6.0 }
         },
-        depthTest: true,
-        depthWrite: false,
-        transparent: true,
-    });
-}
-
-function createFaceBubblesUpMaterial(texture) {
-    return new THREE.ShaderMaterial({
-        vertexShader: faceBubblesVert,
-        fragmentShader: faceBubblesFragment,
-        uniforms: {
-            u_resolution: { value: [window.innerWidth, window.innerHeight] },
-            u_time: { value: 0.0 },
-            u_frequency: { value: 0.5 },
-            u_texture: { value: texture },
-            u_opacity: { value: 0.01 },
-            u_size: { value: 10.0 }
-        },
-        blending: THREE.AdditiveBlending,
         depthTest: true,
         depthWrite: false,
         transparent: true,
@@ -131,7 +111,7 @@ function createInitBubblesMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: 0.8 },
-            u_size: { value: 20.0 }
+            u_size: { value: 10.0 }
         },
         blending: THREE.AdditiveBlending,
         depthTest: true,
@@ -150,7 +130,7 @@ function createEnvBubblesMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: .75 },
-            u_size: { value: 20.0 }
+            u_size: { value: 10.0 }
         },
         blending: THREE.AdditiveBlending,
         depthTest: true,
