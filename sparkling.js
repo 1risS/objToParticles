@@ -37,7 +37,6 @@ export function setup(mesh, scene) {
     }
 
     positions = originalGeometry.attributes.position;
-    console.log(positions.count);
 
     addBubbleToGroup();
 }

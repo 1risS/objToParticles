@@ -25,7 +25,6 @@ export async function gifPlane(scene) {
     // Create a material using the first frame of the GIF
     const initialTexture = gifTextures[1];
 
-    console.log(initialTexture)
     const material = new THREE.MeshBasicMaterial({
         map: initialTexture,
         //transparent: true 
