@@ -29,7 +29,7 @@ export function loadModels(scene) {
     const loader = new GLTFLoader();
     loader.load(
         // 'meshes/Cara11_8mar.glb', function (gltf) {
-        'meshes/nuevaCara4.glb', function (gltf) {
+        'meshes/nuevaCara5.glb', function (gltf) {
             new THREE.TextureLoader().load('imgs/bubble_03.png', (texture, opacity) => {
                 //Shader de prueba para los modelos nuevos de Ema
                 //  faceMaterial = new THREE.PointsMaterial({ color: 0xffffff })
@@ -224,7 +224,7 @@ export function loadModels(scene) {
 
                 faceMesh.morphTargetInfluences[0] = 0.125;
 
-                faceMesh.scale.setScalar(10);
+                faceMesh.scale.setScalar(6);
                 faceMesh.rotation.x = Math.PI * 0.5;
                 setOriginalMeshPoints(faceMesh);
 
