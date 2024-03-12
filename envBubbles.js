@@ -4,7 +4,7 @@ let particleCount, particles, positions;
 let _showBubbles = true;
 
 export function initEnvBubbles(scene, pointMaterial) {
-    particleCount = 2000;
+    particleCount = 300;
     particles = new THREE.BufferGeometry();
     positions = new Float32Array(particleCount * 3);
 

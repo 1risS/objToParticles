@@ -174,19 +174,4 @@ function initPostprocessing() {
   postprocessing.bokeh = bokehPass;
 }
 
-// Puntos o burbujas png
-// pointsMaterial = new THREE.PointsMaterial({
-//   color: 'white',
-//   size: 0.05,
-//   // para tener el estadío 1 mutear los dos maps
 
-//   // burbujas png
-//   map: texture,
-
-//   //circulitos
-//   // map: createCircleTexture(),
-//   transparent: false,
-//   alphaTest: 0.5,
-//   opacity: 1,
-//   blending: THREE.AdditiveBlending
-// });
