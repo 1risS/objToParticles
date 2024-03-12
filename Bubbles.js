@@ -27,7 +27,7 @@ let initBubblesMaterial;
 export async function loadAssetsAndSetup(scene) {
     return new Promise((resolve, reject) => {
         const loader = new GLTFLoader();
-        loader.load('meshes/nueva_cara_marce_03.glb', function (gltf) {
+        loader.load('meshes/nueva_cara_marce_02.glb', function (gltf) {
 
             new THREE.TextureLoader().load('imgs/burb_a.png', (texture) => {
                 faceMaterial = createFaceMaterial(texture);
@@ -73,6 +73,9 @@ export async function loadAssetsAndSetup(scene) {
                 geom.setAttribute('size', sizeAttribute);
 
                 faceMesh = createFaceMesh(geom);
+                faceMesh.position.set(0, 1.3, 0);
+
+                // burbujas para la copia de la cara que sube
                 faceBubblesMesh = createFaceBubblesMesh(geom);
 
                 scene.add(faceMesh);

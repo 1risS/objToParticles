@@ -23,8 +23,8 @@ export function updateFaceOpacity(opacity) {
     opacity.value += easeInSine(stepFade);
     if (fadingIn) {
         opacity.value += stepFade;
-        if (opacity.value >= 0.1) {
-            opacity.value = 0.1;
+        if (opacity.value >= 0.5) {
+            opacity.value = 0.5;
             fadingIn = false;
         }
     }

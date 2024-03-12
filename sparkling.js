@@ -60,7 +60,7 @@ function addBubbleToGroupOld() {
 
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
-    if (bubbles.length >= 10) {
+    if (bubbles.length >= 60) {
         const oldestBubble = bubbles.shift();
         bubbleGroup.remove(oldestBubble);
     }
@@ -81,7 +81,7 @@ function addBubbleToGroupOld() {
     // console.log(bubbles[0].position.x)
     setTimeout(function () {
         addBubbleToGroup()
-    }, 100)
+    }, 10)
 }
 
 function addBubbleToGroup() {
