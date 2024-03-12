@@ -10,6 +10,7 @@ export function setup(mesh, scene) {
     bubbleGroup = new THREE.Group();
     bubbleGroup.scale.setScalar(6);
     bubbleGroup.rotation.x = Math.PI * 0.5;
+    bubbleGroup.position.y = 1.5;
     scene.add(bubbleGroup);
 
     // Clonar la geometría del mesh
