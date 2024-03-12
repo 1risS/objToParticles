@@ -1,10 +1,13 @@
-// import { animateEnvBubbles } from './envBubbles.js';
-// import { animateWaves } from './faceWaves.js';
+import { animateEnvBubbles } from './envBubbles.js';
+import { animateWaves } from './faceWaves.js';
 import { updateFaceOpacity } from './fadeInFace.js';
 import { animateBubbles } from './initBubbles.js';
-import { analyser, bubblesMaterial, faceMaterial, faceMesh, loadModels } from './modelLoaders.js';
+// import { analyser, bubblesMaterial, faceMaterial, faceMesh, loadModels } from './modelLoaders.js';
+import * as bubbles from './Bubbles.js';
 
-import * as ENV from './environment.js';
+
+import * as env from './environment.js';
+import * as sparkling from './sparkling.js';
 
 
 // let pointsMaterial;
@@ -12,35 +15,38 @@ import * as ENV from './environment.js';
 
 init();
 
-function init() {
-  ENV.create3dEnvironment(animate)
-  document.getElementById('video').play();
-  loadModels(ENV.scene);
+async function init() {
+  env.create3dEnvironment(animate)
+  // document.getElementById('video').play();
+  await bubbles.loadAssetsAndSetup(env.scene);
+  sparkling.setup(bubbles.faceMesh, env.scene)
 }
 
 
 function animate() {
-  ENV.controls.update();
+  env.controls.update();
 
   // Update uniforms
-  if (faceMaterial) {
-    updateFaceOpacity(faceMaterial.uniforms.u_opacity);
-    faceMaterial.uniforms.u_time.value += 0.01;
-    faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+  if (bubbles.faceMaterial) {
+    updateFaceOpacity(bubbles.faceMaterial.uniforms.u_opacity);
+    bubbles.faceMaterial.uniforms.u_time.value += 0.01;
+    bubbles.faceMaterial.uniforms.u_frequency.value = bubbles.analyser ? bubbles.analyser.getAverageFrequency() : 0;
   }
-  if (bubblesMaterial) {
-    updateFaceOpacity(faceMaterial.uniforms.u_opacity);
-    bubblesMaterial.uniforms.u_time.value += 0.01;
-    bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+  if (bubbles.bubblesMaterial) {
+    updateFaceOpacity(bubbles.faceMaterial.uniforms.u_opacity);
+    bubbles.bubblesMaterial.uniforms.u_time.value += 0.01;
+    bubbles.bubblesMaterial.uniforms.u_frequency.value = bubbles.analyser ? bubbles.analyser.getAverageFrequency() : 0;
   }
 
   // Move points
-  animateBubbles();
+  // animateBubbles();
   // animateEnvBubbles();
   // animateFaceUp(faceBubblesMesh);
-  // animateWaves(faceMesh, analyser);
+  // animateWaves(bubbles.faceMesh, bubbles.analyser);
 
-  ENV.render()
+  sparkling.update()
+
+  env.render()
 }
 
 

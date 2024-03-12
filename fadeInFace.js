@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { faceMaterial } from './modelLoaders.js';
+import { faceMaterial } from './Bubbles.js';
 
 //intento de control externo de la opacidad del shader:
 // faceMaterial.uniforms.u_opacity.value = 0.5;

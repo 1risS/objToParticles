@@ -62,8 +62,10 @@ export function animateFaceUp(mesh) {
 }
 
 export function animateWaves(mesh, analyser) {
-    if (!originalPoints) return; // Si los puntos originales no están definidos, salir de la función
-
+    if (!originalPoints) {
+        console.log('chau')
+        return; // Si los puntos originales no están definidos, salir de la función
+    }
     const avgFq = analyser ? analyser.getAverageFrequency() : 0;
 
     time += 0.1
