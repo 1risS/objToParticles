@@ -11,11 +11,16 @@ import { faceMaterial } from './modelLoaders.js';
 let fadingIn = true;
 let stepFade = 0.0005;
 
+function easeInSine(x) {
+    return 1 - Math.cos((x * Math.PI) / 2);
+}
+
 export function resetFadingInFace() {
     fadingIn = true;
 }
 
 export function updateFaceOpacity(opacity) {
+    opacity.value += easeInSine(stepFade);
     if (fadingIn) {
         opacity.value += stepFade;
         if (opacity.value >= 0.1) {
