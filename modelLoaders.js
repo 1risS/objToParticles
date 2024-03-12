@@ -14,15 +14,16 @@ import { camera } from './main.js'
 import { initFaceShow } from './faceShowFromBelow.js';
 
 export let faceMaterial;
-let bubblesMaterial;
+export let bubblesMaterial;
+export let faceBubblesMesh;
+export let analyser;
+
 let audioInitialize = false;
 let faceBubblesUpMaterial;
 let envBubblesMaterial;
 let initBubblesMaterial;
 let columnBubblesMaterial;
 let faceMesh;
-export let faceBubblesMesh;
-let analyser;
 
 export function loadModels(scene) {
     const loader = new GLTFLoader();
@@ -42,7 +43,7 @@ export function loadModels(scene) {
                         u_time: { value: 0.0 },
                         u_frequency: { value: 0.0 },
                         u_texture: { value: texture },
-                        u_opacity: { value: 0.1 },
+                        u_opacity: { value: 0.0 },
                         u_size: { value: 7.0 }
                     },
                     // blending: THREE.AdditiveBlending, 
@@ -63,34 +64,33 @@ export function loadModels(scene) {
                 })
 
                 // 
-                if (faceMaterial) {
-                    faceMaterial.uniforms.u_time.value += 0.01;
-                    faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
-                }
-                if (bubblesMaterial) {
-                    bubblesMaterial.uniforms.u_time.value += 0.01;
-                    bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
-                }
-
+                // if (faceMaterial) {
+                //     faceMaterial.uniforms.u_time.value += 0.01;
+                //     faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+                // }
+                // if (bubblesMaterial) {
+                //     bubblesMaterial.uniforms.u_time.value += 0.01;
+                //     bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+                // }
 
                 // animación de la opacidad
 
-                function fadingInFace() {
+                // function fadingInFace() {
 
-                    let opacity = faceMaterial.uniforms.u_opacity.value;
+                //     let opacity = faceMaterial.uniforms.u_opacity;
 
-                    opacity = 0.0;
-                    let fadingIn = false;
-                    let stepFade = 0.001;
+                //     opacity.value = 0.0;
+                //     let fadingIn = false;
+                //     let stepFade = 0.001;
 
-                    if (fadingIn === true) {
-                        opacity += stepFade;
-                        if (opacity >= 0.1) {
-                            opacity = 0.1;
-                            fadingIn = false;
-                        }
-                    }
-                }
+                //     if (fadingIn === true) {
+                //         opacity.value += stepFade;
+                //         if (opacity.value >= 0.1) {
+                //             opacity.value = 0.1;
+                //             fadingIn = false;
+                //         }
+                //     }
+                // }
 
 
                 //Shader para el emisor de burbujas desde la cara

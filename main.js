@@ -1,24 +1,19 @@
-import './style.css'
+import GUI from 'lil-gui';
 import * as THREE from 'three';
 import { WebGLRenderer } from 'three';
-import GUI from 'lil-gui';
+import './style.css';
 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-
-import { animateBubbles } from './initBubbles.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 
 import { animateEnvBubbles } from './envBubbles.js';
-
 import { animateFaceUp } from './faceWaves';
-
-import { faceBubblesMesh } from './modelLoaders.js'
-
-import { loadModels } from './modelLoaders.js'
+import { updateFaceOpacity } from './fadeInFace.js';
+import { animateBubbles } from './initBubbles.js';
+import { faceBubblesMesh, bubblesMaterial, faceMaterial, loadModels, analyser } from './modelLoaders.js';
 
 import { animateColumnBubbles } from './columnBubbles.js'
 
@@ -136,7 +131,19 @@ function onWindowResize() {
 
 function animate() {
   controls.update();
-  // fadingInFace(faceMesh);
+
+  // Update uniforms
+  if (faceMaterial) {
+    updateFaceOpacity(faceMaterial.uniforms.u_opacity);
+    faceMaterial.uniforms.u_time.value += 0.01;
+    faceMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+  }
+  if (bubblesMaterial) {
+    bubblesMaterial.uniforms.u_time.value += 0.01;
+    bubblesMaterial.uniforms.u_frequency.value = analyser ? analyser.getAverageFrequency() : 0;
+  }
+
+  // Move points
   animateBubbles();
   animateEnvBubbles();
   animateColumnBubbles();
