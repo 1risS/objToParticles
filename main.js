@@ -38,11 +38,11 @@ function init() {
   scene = new THREE.Scene();
 
   // video de fondo
-  const video = document.getElementById('video');
-  video.play();
+  // const video = document.getElementById('video');
+  // video.play();
 
-  const texture = new THREE.VideoTexture(video);
-  scene.background = texture;
+  // const texture = new THREE.VideoTexture(video);
+  // scene.background = texture;
 
 
   //loader
