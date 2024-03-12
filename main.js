@@ -18,7 +18,7 @@ init();
 
 async function init() {
   env.create3dEnvironment(animate)
-  // document.getElementById('video').play();
+  document.getElementById('video').play();
   await bubbles.loadAssetsAndSetup(env.scene);
   sparkling.setup(bubbles.faceMesh, env.scene);
   gifPlane(env.scene);
