@@ -39,8 +39,8 @@ function animate() {
   }
 
   // Move points
-  // animateBubbles();
-  // animateEnvBubbles();
+  animateBubbles();
+  animateEnvBubbles();
   // animateFaceUp(faceBubblesMesh);
   // animateWaves(bubbles.faceMesh, bubbles.analyser);
 
