@@ -27,7 +27,7 @@ let initBubblesMaterial;
 export async function loadAssetsAndSetup(scene) {
     return new Promise((resolve, reject) => {
         const loader = new GLTFLoader();
-        loader.load('meshes/nueva_cara_marce_02.glb', function (gltf) {
+        loader.load('meshes/nueva_carav2.glb', function (gltf) {
 
             new THREE.TextureLoader().load('imgs/burb_a.png', (texture) => {
                 faceMaterial = createFaceMaterial(texture);
