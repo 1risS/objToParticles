@@ -53,7 +53,7 @@ export function update() {
     }
 }
 function addBubbleToGroupOld() {
-    const radius = 0.001;
+    const radius = 0.0001;
     const widthSegments = 32;
     const heightSegments = 32;
     const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
@@ -92,7 +92,7 @@ function addBubbleToGroup() {
 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
-        'imgs/burb_a_negro.png',
+        'imgs/burb_blanca.png',
         function (texture) {
             const material = new THREE.MeshMatcapMaterial(
                 {

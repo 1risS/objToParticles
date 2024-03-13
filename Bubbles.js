@@ -29,7 +29,7 @@ export async function loadAssetsAndSetup(scene) {
         const loader = new GLTFLoader();
         loader.load('meshes/nueva_carav2.glb', function (gltf) {
 
-            new THREE.TextureLoader().load('imgs/burb_a.png', (texture) => {
+            new THREE.TextureLoader().load('imgs/burb_blanca_transparente.png', (texture) => {
                 faceMaterial = createFaceMaterial(texture);
                 initBubblesMaterial = createInitBubblesMaterial(texture);
                 envBubblesMaterial = createEnvBubblesMaterial(texture);
@@ -96,7 +96,7 @@ function createFaceMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: 0.0 },
-            u_size: { value: 6.0 }
+            u_size: { value: 4.0 }
         },
         depthTest: true,
         depthWrite: false,
@@ -114,7 +114,7 @@ function createInitBubblesMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: 0.8 },
-            u_size: { value: 10.0 }
+            u_size: { value: 6.0 }
         },
         blending: THREE.AdditiveBlending,
         depthTest: true,
@@ -133,7 +133,7 @@ function createEnvBubblesMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: .75 },
-            u_size: { value: 10.0 }
+            u_size: { value: 6.0 }
         },
         blending: THREE.AdditiveBlending,
         depthTest: true,
