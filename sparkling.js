@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { initAudio } from './audioListener';
 import faceBubblesFragment from './glsl/faceBubbles.frag';
 import faceBubblesVert from './glsl/faceBubbles.vert';
 
@@ -82,7 +83,7 @@ function addBubbleToGroupOld() {
     // console.log(bubbles[0].position.x)
     setTimeout(function () {
         addBubbleToGroup()
-    }, 10)
+    }, 5 + u_frequency)
 }
 
 function addBubbleToGroup() {
@@ -103,7 +104,7 @@ function addBubbleToGroup() {
                 });
             const sphere = new THREE.Mesh(sphereGeometry, material);
 
-            if (bubbles.length >= 30) {
+            if (bubbles.length >= 50) {
                 const oldestBubble = bubbles.shift();
                 bubbleGroup.remove(oldestBubble);
             }
@@ -124,7 +125,7 @@ function addBubbleToGroup() {
             // console.log(bubbles[0].position.x)
             setTimeout(function () {
                 addBubbleToGroup()
-            }, 50)
+            }, 60)
         },
         undefined,
         function (error) {

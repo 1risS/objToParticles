@@ -9,7 +9,7 @@ import { faceMaterial } from './Bubbles.js';
 // let opacity = faceMaterial.uniforms.u_opacity.value;
 
 let fadingIn = true;
-let stepFade = 0.0005;
+let stepFade = 0.5 // 0.0005;
 
 function easeInSine(x) {
     return 1 - Math.cos((x * Math.PI) / 2);
