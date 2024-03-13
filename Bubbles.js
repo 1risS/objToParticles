@@ -96,7 +96,7 @@ function createFaceMaterial(texture) {
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
             u_opacity: { value: 0.0 },
-            u_size: { value: 4.0 }
+            u_size: { value: 2.0 }
         },
         depthTest: true,
         depthWrite: false,
