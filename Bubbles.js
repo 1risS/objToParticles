@@ -27,7 +27,7 @@ let initBubblesMaterial;
 export async function loadAssetsAndSetup(scene) {
     return new Promise((resolve, reject) => {
         const loader = new GLTFLoader();
-        loader.load('meshes/doja_46_i.glb', function (gltf) {
+        loader.load('meshes/doja_46_j.glb', function (gltf) {
             new THREE.TextureLoader().load('imgs/burbuja_sintransparencia.png', (texture) => {
                 faceMaterial = createFaceMaterial(texture);
                 initBubblesMaterial = createInitBubblesMaterial(texture);
