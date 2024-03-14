@@ -87,7 +87,7 @@ function addBubbleToGroupOld() {
 }
 
 function addBubbleToGroup() {
-    const radius = 0.001;
+    const radius = 0.0008;
     const sphereGeometry = new THREE.SphereGeometry(radius, 32, 32);
 
     const textureLoader = new THREE.TextureLoader();
