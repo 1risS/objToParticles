@@ -4,7 +4,7 @@ let particleCount, particles, positions;
 let _showBubbles = true;
 
 export function initEnvBubbles(scene, pointMaterial) {
-    particleCount = 3000;
+    particleCount = 2000;
     particles = new THREE.BufferGeometry();
     positions = new Float32Array(particleCount * 3);
 
@@ -35,15 +35,15 @@ export function animateEnvBubbles() {
 
             const positionAttribute = particles.getAttribute('position');
             const array = positionAttribute.array;
-            let speed = 0.8;
-            let acceleration = 0.003;
+            let speed = 0.000009;
+            let acceleration = 0.000005;
             for (let i = 0; i < particleCount * 3; i += 3) {
                 array[i + 1] += Math.random() * speed;
                 // array[i] += Math.sin(array[i + 1] * Math.random() + i) * 0.003;
 
                 // Reset particles that reach top
                 if (array[i + 1] > 3) {
-                    acceleration = 0.0003;
+                    acceleration = 0.000001;
 
                     array[i + 1] = -2;
                     array[i] = Math.random() * 2 - 1;
