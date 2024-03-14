@@ -4,8 +4,6 @@ import { updateFaceOpacity } from './fadeInFace.js';
 import { animateBubbles } from './initBubbles.js';
 // import { analyser, bubblesMaterial, faceMaterial, faceMesh, loadModels } from './modelLoaders.js';
 import * as bubbles from './Bubbles.js';
-import { gifPlane, gifTexture } from './planeForGif.js'
-
 
 import * as env from './environment.js';
 import * as sparkling from './sparkling.js';
@@ -21,7 +19,6 @@ async function init() {
   document.getElementById('video').play();
   await bubbles.loadAssetsAndSetup(env.scene);
   sparkling.setup(bubbles.faceMesh, env.scene);
-  gifPlane(env.scene);
 }
 
 
