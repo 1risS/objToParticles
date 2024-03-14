@@ -92,7 +92,7 @@ function addBubbleToGroup() {
 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
-        'imgs/burb_blanca.png',
+        'imgs/burb_a_negro.png',
         function (texture) {
             const material = new THREE.MeshMatcapMaterial(
                 {
