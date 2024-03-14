@@ -11,7 +11,7 @@ export function setup(mesh, scene) {
     bubbleGroup = new THREE.Group();
     bubbleGroup.scale.setScalar(6);
     bubbleGroup.rotation.x = Math.PI * 0.5;
-    bubbleGroup.position.y = 1.5;
+    bubbleGroup.position.y = 1.3;
     scene.add(bubbleGroup);
 
     // Clonar la geometría del mesh
@@ -125,7 +125,7 @@ function addBubbleToGroup() {
             // console.log(bubbles[0].position.x)
             setTimeout(function () {
                 addBubbleToGroup()
-            }, 60)
+            }, 30)
         },
         undefined,
         function (error) {

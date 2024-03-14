@@ -27,9 +27,8 @@ let initBubblesMaterial;
 export async function loadAssetsAndSetup(scene) {
     return new Promise((resolve, reject) => {
         const loader = new GLTFLoader();
-        loader.load('meshes/nueva_carav2.glb', function (gltf) {
-
-            new THREE.TextureLoader().load('imgs/burb_blanca_transparente.png', (texture) => {
+        loader.load('meshes/doja_28.glb', function (gltf) {
+            new THREE.TextureLoader().load('imgs/burb_a.png', (texture) => {
                 faceMaterial = createFaceMaterial(texture);
                 initBubblesMaterial = createInitBubblesMaterial(texture);
                 envBubblesMaterial = createEnvBubblesMaterial(texture);
@@ -153,6 +152,6 @@ function createFaceMesh(geometry) {
 function createFaceBubblesMesh(geometry) {
     const faceBubblesMesh = new THREE.Points(geometry.clone(), faceBubblesUpMaterial);
     faceBubblesMesh.scale.setScalar(10);
-    faceBubblesMesh.rotation.x = Math.PI * 0.5;
+    // faceBubblesMesh.rotation.x = Math.PI * 0.5;
     return faceBubblesMesh;
 }
