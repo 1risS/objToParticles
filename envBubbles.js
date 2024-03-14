@@ -35,10 +35,10 @@ export function animateEnvBubbles() {
 
             const positionAttribute = particles.getAttribute('position');
             const array = positionAttribute.array;
-            let speed = 1;
-            let acceleration = 0.03;
+            let speed = 0.8;
+            let acceleration = 0.003;
             for (let i = 0; i < particleCount * 3; i += 3) {
-                array[i + 1] += Math.random() * 0.004 * speed;
+                array[i + 1] += Math.random() * speed;
                 // array[i] += Math.sin(array[i + 1] * Math.random() + i) * 0.003;
 
                 // Reset particles that reach top
