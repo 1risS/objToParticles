@@ -112,7 +112,7 @@ function createInitBubblesMaterial(texture) {
             u_time: { value: 0.0 },
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
-            u_opacity: { value: 0.8 },
+            u_opacity: { value: 1.1 },
             u_size: { value: 6.0 }
         },
         blending: THREE.AdditiveBlending,
@@ -131,7 +131,7 @@ function createEnvBubblesMaterial(texture) {
             u_time: { value: 0.0 },
             u_frequency: { value: 0.0 },
             u_texture: { value: texture },
-            u_opacity: { value: .75 },
+            u_opacity: { value: 1.1 },
             u_size: { value: 6.0 }
         },
         blending: THREE.AdditiveBlending,
