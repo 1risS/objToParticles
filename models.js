@@ -3,23 +3,36 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const modelData = {};
 
+
 export async function load(file, name) {
     return new Promise((resolve, reject) => {
         const loader = new GLTFLoader();
         loader.load(file, (gltf) => {
-            console.log(name + ' loaded successfully.');
+
             gltf.scene.position.set(0, 0, 0);
 
             const points = [];
+            const uniquePoints = {};
             gltf.scene.traverse((child) => {
                 if (child.isMesh) {
                     const geometry = child.geometry;
                     const vertices = geometry.attributes.position.array;
                     for (let i = 0; i < vertices.length; i += 3) {
-                        points.push(new THREE.Vector3(vertices[i], vertices[i + 1], vertices[i + 2]));
+                        const x = vertices[i];
+                        const y = vertices[i + 1];
+                        const z = vertices[i + 2];
+
+                        const key = `${x.toFixed(3)}_${y.toFixed(3)}_${z.toFixed(3)}`;
+                        if (!uniquePoints[key]) {
+                            uniquePoints[key] = true;
+                            points.push(new THREE.Vector3(x, y, z));
+                        }
                     }
                 }
             });
+
+            console.log(name, points.length, 'points.');
+
 
             modelData[name] = points;
 
@@ -30,6 +43,7 @@ export async function load(file, name) {
         });
     });
 }
+
 
 export function getPointsArray(name) {
     if (modelData[name]) {

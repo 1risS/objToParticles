@@ -17,7 +17,7 @@ async function init() {
   // Load models
   await models.load('meshes/new_doja_03.glb', 'cara')
   await models.load('meshes/Oreja2.glb', 'oreja')
-  await models.load('meshes/Pulgar1.glb', 'pulgar')
+  await models.load('meshes/mano_2.glb', 'pulgar')
 
   // Load textures
   const bubbleTexture = await textures.load('imgs/burbuja_sintransparencia.png');
