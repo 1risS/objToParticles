@@ -9,7 +9,7 @@ export async function load(file, name) {
         const loader = new GLTFLoader();
         loader.load(file, (gltf) => {
 
-            gltf.scene.position.set(0, 0, 0);
+            // gltf.scene.position.set(0, 0, 0);
 
             const points = [];
             const uniquePoints = {};

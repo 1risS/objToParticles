@@ -2,7 +2,8 @@ import * as THREE from 'three';
 
 export let bubbles = [];
 let bubbleGroup;
-export let destinations = [];
+let destinations = [];
+// let offsets = []
 
 const radius = 0.001;
 const widthSegments = 32;
