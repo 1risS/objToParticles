@@ -15,7 +15,7 @@ async function init() {
   // sparkling.setup(bubbles.faceMesh, env.scene)
 
   // Load models
-  await models.load('meshes/doja_46_j.glb', 'cara')
+  await models.load('meshes/new_doja_03.glb', 'cara')
   await models.load('meshes/Oreja2.glb', 'oreja')
   await models.load('meshes/Pulgar1.glb', 'pulgar')
 
