@@ -10,6 +10,7 @@ import * as env from './environment.js';
 import * as sparkling from './sparkling.js';
 // import * as bubblesToFace from './bubblesToFace.js'
 import * as models from './models.js'
+import * as textures from './textures.js'
 import * as bubbles from './bubbles2.js'
 // let pointsMaterial;
 // let faceOpacity;
@@ -30,7 +31,7 @@ async function init() {
   await models.load('meshes/Pulgar1.glb', 'pulgar')
 
   // Load textures
-  // ...
+  const bubbleTexture = await textures.load('imgs/burbuja_sintransparencia.png');
 
   // const cara = await models.getPointsArray('cara')
   // console.log('cara', cara.length)
@@ -39,8 +40,8 @@ async function init() {
   // console.log(models.getMaxPoints())
   bubbles.create(env.scene, models.getMaxPoints())
 
-  initBubbles(env.scene)
-  initEnvBubbles(env.scene)
+  initBubbles(env.scene, bubbleTexture);
+  initEnvBubbles(env.scene, bubbleTexture);
 }
 
 
