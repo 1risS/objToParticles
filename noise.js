@@ -1,8 +1,7 @@
 import * as THREE from 'three';
+import { Noise } from 'noisejs';
+const noise = new Noise(Math.random());
 
-import { createNoise3D } from 'simplex-noise';
-
-const noiseStrength = 0.01;
 
 export function applyRandom(bubblesArray) {
     const randomtrength = 0.0005;
@@ -18,18 +17,43 @@ export function applyRandom(bubblesArray) {
 
 }
 
-export function applyNoise(bubblesArray) {
-    const noiseStrength = 0.001;
-    const time = Date.now() * 0.0000001;
-    const noise3D = createNoise3D();
-    
-    bubblesArray.forEach((bubble) => {
-        let index = 0
-        const noiseX = noise3D(time + index, time, time) * noiseStrength;
-        const noiseY = noise3D(time, time + index, time) * noiseStrength;
-        const noiseZ = noise3D(time, time, time + index) * noiseStrength;
+export function applyNoise(bubbles) {
+    const strenght = 0.001;
+    const amp = 0.00015;
 
-        const noise = new THREE.Vector3(noiseX, noiseY, noiseZ);
-        bubble.position.add(noise);
+    const time = Date.now() * 0.00051;
+    bubbles.forEach((bubble, index) => {
+        // const x = bubble.position.x
+        // const y = bubble.position.y
+        // const z = bubble.position.z
+        // const noiseX = noise.simplex3(x * strenght, y * strenght, time) * strenght;
+        // const noiseY = noise.simplex3(x * strenght, z * strenght, time + 1) * strenght;
+        // const noiseZ = noise.simplex3(y * strenght, z * strenght, time + 2) * strenght;
+        const noiseX = noise.simplex3(time + index, time, time) * amp;
+        const noiseY = noise.simplex3(time, time + index, time) * amp;
+        const noiseZ = noise.simplex3(time, time, time + index) * amp;
+
+        bubble.position.x += noiseX;
+        bubble.position.y += noiseY;
+        bubble.position.z += noiseZ;
+    });
+}
+
+export function applyNoise2(bubbles) {
+    const strenght = 0.001;
+    const amp = 0.00015;
+
+    const time = Date.now() * 0.0001;
+    bubbles.forEach((bubble, index) => {
+        const x = bubble.position.x
+        const y = bubble.position.y
+        const z = bubble.position.z
+        const noiseX = noise.simplex3(index, y * strenght, time) * strenght;
+        const noiseY = noise.simplex3(x * strenght, index, time + 1) * strenght;
+        const noiseZ = noise.simplex3(y * strenght, z * strenght, index) * strenght;
+
+        bubble.position.x += noiseX;
+        bubble.position.y += noiseY;
+        bubble.position.z += noiseZ;
     });
 }

@@ -5,7 +5,7 @@ import * as bubbles from './bubbles.js';
 import * as env from './environment.js';
 import * as models from './models.js';
 import * as textures from './helpers.js';
-import { applyNoise, applyRandom } from './noise.js';
+import * as noise from './noise.js';
 
 init();
 
@@ -34,7 +34,9 @@ function animate() {
   bubbles.update()
 
   // applyRandom(bubbles.bubbles)
-  applyNoise(bubbles.bubbles)
+  noise.applyNoise(bubbles.bubbles)
+  // noise.applyNoise2(bubbles.bubbles)
+
 
   // animateBubbles();
   // animateEnvBubbles();
