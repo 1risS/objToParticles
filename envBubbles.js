@@ -3,15 +3,15 @@ import * as THREE from 'three';
 let particleCount, particles, positions;
 let _showBubbles = true;
 
-const baseAccel = 0.0009;
-const accelStep = 0.00005;
-const maxAccel = 0.02;
+const baseAccel = 0.1;
+const accelStep = 0.0005;
+const maxAccel = 0.01;
 const accel = [];
 
 export function initEnvBubbles(scene, texture) {
     const material = new THREE.PointsMaterial({
         color: 'white',
-        size: 0.05,
+        size: 0.03,
         map: texture,
         alphaTest: 0.5,
         opacity: 1.0,

@@ -1,5 +1,5 @@
 import { animateEnvBubbles, initEnvBubbles } from './envBubbles.js';
-import { animateBubbles, initBubbles } from './initBubbles.js';
+import { animateInitBubbles, initBubbles } from './initBubbles.js';
 
 import * as bubbles from './bubbles.js';
 import * as env from './environment.js';
@@ -17,8 +17,8 @@ async function init() {
   // sparkling.setup(bubbles.faceMesh, env.scene)
 
   // Load models
-  await models.load('meshes/new_doja_03.glb', 'cara')
-  await models.load('meshes/Oreja2.glb', 'oreja')
+  await models.load('meshes/doja_67.glb', 'cara')
+  await models.load('meshes/oreja.glb', 'oreja')
   await models.load('meshes/mano_2.glb', 'pulgar')
 
   // bubbles
@@ -26,7 +26,7 @@ async function init() {
   bubbles.create(env.scene, bubbleTexture, models.getMaxPoints());
 
   // initBubbles(env.scene, bubbleTexture);
-  // initEnvBubbles(env.scene, bubbleTexture);
+  initEnvBubbles(env.scene, bubbleTexture);
 }
 
 function animate() {
@@ -39,8 +39,8 @@ function animate() {
   // noise.applyNoise2(bubbles.bubbles)
   waves.update(bubbles.bubbles)
 
-  // animateBubbles();
-  // animateEnvBubbles();
+  // animateInitBubbles();
+  animateEnvBubbles();
 }
 
 /* EVENTS */

@@ -5,7 +5,7 @@ let bubbleGroup;
 let destinations = [];
 // let offsets = []
 
-const radius = 0.0051;
+let radius = 0.009;
 const widthSegments = 32;
 const heightSegments = 32;
 const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
@@ -26,18 +26,21 @@ export function create(scene, texture, totalBubbles) {
             map: texture
         });
         const sphere = new THREE.Mesh(sphereGeometry, material);
+
+        radius = Math.random() * 2;
         let x = (Math.random() - 0.5) * 0.75;
-        let y = (Math.random() - 0.5) * 0.75;
+        let y = (Math.random() - 0.5) * 0.75 - 3;
         let z = (Math.random() - 0.5) * 0.75;
 
         sphere.position.set(x, y, z);
         bubbleGroup.add(sphere);
         bubbles.push(sphere);
 
+
         destinations.push(new THREE.Vector3(x, y, z))
     }
     console.log('bubbles.length:', bubbles.length);
-}
+} 
 
 export function setPointsPositions(pointsArray) {
     destinations = []
@@ -51,6 +54,8 @@ export function update() {
             const destination = destinations[index];
             bubble.position.lerp(destination, bubbleVelocity);
 
+
+            
             // if (bubble.position.y < 0) {
             //     bubble.material.color.set(0xff0000)
             // } else {
