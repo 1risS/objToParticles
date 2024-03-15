@@ -11,8 +11,8 @@ const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSeg
 
 export function create(scene, texture, totalBubbles) {
     bubbleGroup = new THREE.Group();
-    bubbleGroup.scale.setScalar(6);
-    bubbleGroup.rotation.x = Math.PI * 0.5;
+    //    bubbleGroup.scale.setScalar(6);
+    //    bubbleGroup.rotation.x = Math.PI * 0.5;
     scene.add(bubbleGroup);
 
     const material = new THREE.MeshBasicMaterial({
