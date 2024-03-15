@@ -6,6 +6,7 @@ import * as env from './environment.js';
 import * as models from './models.js';
 import * as textures from './helpers.js';
 import * as noise from './noise.js';
+import * as waves from './waves.js'
 
 init();
 
@@ -36,7 +37,7 @@ function animate() {
   // applyRandom(bubbles.bubbles)
   noise.applyNoise(bubbles.bubbles)
   // noise.applyNoise2(bubbles.bubbles)
-
+  waves.update(bubbles.bubbles)
 
   // animateBubbles();
   // animateEnvBubbles();
@@ -57,6 +58,11 @@ function onKeyPress(event) {
     case '3':
       console.log('3');
       bubbles.setPointsPositions(models.getPointsArray('pulgar'));
+
+      break;
+    case '4':
+      console.log('4');
+      waves.apply(0.01)
 
       break;
     default:

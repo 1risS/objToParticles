@@ -17,6 +17,10 @@ export function applyRandom(bubblesArray) {
 
 }
 
+// explicar como funciona esto del noise a iris
+// iris: tratar de usar el metodo usado con noise para sparkling
+// edu: mover particulas con efecto onda
+
 export function applyNoise(bubbles) {
     const strenght = 0.001;
     const amp = 0.00015;
