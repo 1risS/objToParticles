@@ -9,41 +9,31 @@ const widthSegments = 32;
 const heightSegments = 32;
 const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
 
-export function create(scene, totalBubbles) {
+export function create(scene, texture, totalBubbles) {
     bubbleGroup = new THREE.Group();
     bubbleGroup.scale.setScalar(6);
     bubbleGroup.rotation.x = Math.PI * 0.5;
     scene.add(bubbleGroup);
 
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-        'imgs/burbuja_sintransparencia.png',
-        function (texture) {
-            const material = new THREE.MeshBasicMaterial({
-                color: 0xffffff,
-                transparent: true,
-                map: texture
-            });
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        map: texture
+    });
 
-            for (let i = 0; i < totalBubbles; i++) {
-                const sphere = new THREE.Mesh(sphereGeometry, material);
-                let x = (Math.random() - 0.5) * 0.75;
-                let y = (Math.random() - 0.5) * 0.75;
-                let z = (Math.random() - 0.5) * 0.75;
+    for (let i = 0; i < totalBubbles; i++) {
+        const sphere = new THREE.Mesh(sphereGeometry, material);
+        let x = (Math.random() - 0.5) * 0.75;
+        let y = (Math.random() - 0.5) * 0.75;
+        let z = (Math.random() - 0.5) * 0.75;
 
-                sphere.position.set(x, y, z);
-                bubbleGroup.add(sphere);
-                bubbles.push(sphere);
+        sphere.position.set(x, y, z);
+        bubbleGroup.add(sphere);
+        bubbles.push(sphere);
 
-                destinations.push(new THREE.Vector3(x, y, z))
-            }
-            console.log('bubbles.length:', bubbles.length);
-        },
-        undefined,
-        function (error) {
-            console.error('Error al cargar la textura: ', error);
-        }
-    );
+        destinations.push(new THREE.Vector3(x, y, z))
+    }
+    console.log('bubbles.length:', bubbles.length);
 }
 
 export function setPointsPositions(pointsArray) {

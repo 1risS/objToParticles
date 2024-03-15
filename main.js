@@ -14,7 +14,6 @@ async function init() {
   env.create3dEnvironment(animate)
   // sparkling.setup(bubbles.faceMesh, env.scene)
 
-
   // Load models
   await models.load('meshes/doja_46_j.glb', 'cara')
   await models.load('meshes/Oreja2.glb', 'oreja')
@@ -23,8 +22,7 @@ async function init() {
   // Load textures
   const bubbleTexture = await textures.load('imgs/burbuja_sintransparencia.png');
 
-  bubbles.create(env.scene, models.getMaxPoints())
-
+  bubbles.create(env.scene, bubbleTexture, models.getMaxPoints());
   initBubbles(env.scene, bubbleTexture);
   initEnvBubbles(env.scene, bubbleTexture);
 }
