@@ -16,16 +16,16 @@ async function init() {
   // sparkling.setup(bubbles.faceMesh, env.scene)
 
   // Load models
-  await models.load('meshes/new_doja_03.glb', 'cara')
-  await models.load('meshes/Oreja2.glb', 'oreja')
+  await models.load('meshes/doja_67.glb', 'cara')
+  await models.load('meshes/oreja.glb', 'oreja')
   await models.load('meshes/mano_2.glb', 'pulgar')
 
   // bubbles
   const bubbleTexture = await textures.load('imgs/burbuja_sintransparencia.png');
   bubbles.create(env.scene, bubbleTexture, models.getMaxPoints());
 
-  // initBubbles(env.scene, bubbleTexture);
-  // initEnvBubbles(env.scene, bubbleTexture);
+  initBubbles(env.scene, bubbleTexture);
+  initEnvBubbles(env.scene, bubbleTexture);
 }
 
 function animate() {
@@ -38,8 +38,8 @@ function animate() {
   // noise.applyNoise2(bubbles.bubbles)
 
 
-  // animateBubbles();
-  // animateEnvBubbles();
+  animateBubbles();
+  animateEnvBubbles();
 }
 
 /* EVENTS */

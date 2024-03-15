@@ -3,9 +3,9 @@ import * as THREE from 'three';
 let particleCount, particles, positions;
 let _showBubbles = true;
 
-const baseAccel = 0.0009;
-const accelStep = 0.00005;
-const maxAccel = 0.02;
+const baseAccel = 0.2;
+const accelStep = 0.0005;
+const maxAccel = 0.01;
 const accel = [];
 
 export function initEnvBubbles(scene, texture) {

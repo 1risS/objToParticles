@@ -18,8 +18,8 @@ export function applyRandom(bubblesArray) {
 }
 
 export function applyNoise(bubbles) {
-    const strenght = 0.001;
-    const amp = 0.00015;
+    const strenght = 0.01;
+    const amp = 0.0015;
 
     const time = Date.now() * 0.00051;
     bubbles.forEach((bubble, index) => {

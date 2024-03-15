@@ -5,7 +5,7 @@ let bubbleGroup;
 let destinations = [];
 // let offsets = []
 
-const radius = 0.001;
+let radius = 0.009;
 const widthSegments = 32;
 const heightSegments = 32;
 const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
@@ -25,12 +25,13 @@ export function create(scene, texture, totalBubbles) {
     for (let i = 0; i < totalBubbles; i++) {
         const sphere = new THREE.Mesh(sphereGeometry, material);
         let x = (Math.random() - 0.5) * 0.75;
-        let y = (Math.random() - 0.5) * 0.75;
+        let y = (Math.random() - 0.5) * 0.75 - 3;
         let z = (Math.random() - 0.5) * 0.75;
 
         sphere.position.set(x, y, z);
         bubbleGroup.add(sphere);
         bubbles.push(sphere);
+
 
         destinations.push(new THREE.Vector3(x, y, z))
     }
