@@ -36,15 +36,15 @@ export function showBubbles() {
     _showBubbles = true
 }
 
-export function animateBubbles() {
+export function animateInitBubbles() {
     if (_showBubbles) {
 
         if (particles) {
 
             const positionAttribute = particles.getAttribute('position');
             const array = positionAttribute.array;
-            let speed = 0.0001;
-            let acceleration = 0.00002;
+            let speed = 0.001;
+            let acceleration = 0.002;
             for (let i = 0; i < particleCount * 3; i += 3) {
                 array[i + 1] += Math.random() * speed;
                 // array[i] += Math.sin(array[i + 1] * Math.random() + i) * 0.003;

@@ -1,5 +1,5 @@
 import { animateEnvBubbles, initEnvBubbles } from './envBubbles.js';
-import { animateBubbles, initBubbles } from './initBubbles.js';
+import { animateInitBubbles, initBubbles } from './initBubbles.js';
 
 import * as bubbles from './bubbles.js';
 import * as env from './environment.js';
@@ -24,7 +24,7 @@ async function init() {
   const bubbleTexture = await textures.load('imgs/burbuja_sintransparencia.png');
   bubbles.create(env.scene, bubbleTexture, models.getMaxPoints());
 
-  initBubbles(env.scene, bubbleTexture);
+  // initBubbles(env.scene, bubbleTexture);
   initEnvBubbles(env.scene, bubbleTexture);
 }
 
@@ -38,7 +38,7 @@ function animate() {
   // noise.applyNoise2(bubbles.bubbles)
 
 
-  animateBubbles();
+  // animateInitBubbles();
   animateEnvBubbles();
 }
 

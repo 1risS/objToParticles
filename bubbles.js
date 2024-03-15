@@ -24,6 +24,8 @@ export function create(scene, texture, totalBubbles) {
 
     for (let i = 0; i < totalBubbles; i++) {
         const sphere = new THREE.Mesh(sphereGeometry, material);
+
+        radius = Math.random() * 2;
         let x = (Math.random() - 0.5) * 0.75;
         let y = (Math.random() - 0.5) * 0.75 - 3;
         let z = (Math.random() - 0.5) * 0.75;
