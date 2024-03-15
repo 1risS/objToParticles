@@ -1,12 +1,9 @@
 import * as THREE from 'three';
-import { initAudio } from './audioListener';
-import faceBubblesFragment from './glsl/faceBubbles.frag';
-import faceBubblesVert from './glsl/faceBubbles.vert';
 
 let positions
 let bubbles = []
-// let originalPoints
 let bubbleGroup
+
 export function setup(mesh, scene) {
     bubbleGroup = new THREE.Group();
     bubbleGroup.scale.setScalar(6);

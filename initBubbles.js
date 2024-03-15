@@ -8,13 +8,8 @@ export function initBubbles(scene, texture) {
         color: 'white',
         size: 0.05,
         map: texture,
-        //map: createCircleTexture(),
-        // transparent: true,
         alphaTest: 0.5,
         opacity: 1.0,
-        // -          blending: THREE.AdditiveBlending
-        // side: THREE.DoubleSide,
-        // opacity: 0.26,
     });
 
     particleCount = 3000;

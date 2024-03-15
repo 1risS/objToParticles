@@ -8,13 +8,8 @@ export function initEnvBubbles(scene, texture) {
         color: 'white',
         size: 0.05,
         map: texture,
-        //map: createCircleTexture(),
-        // transparent: true,
         alphaTest: 0.5,
         opacity: 1.0,
-        // -          blending: THREE.AdditiveBlending
-        // side: THREE.DoubleSide,
-        // opacity: 0.26,
     });
 
     particleCount = 2000;
@@ -52,7 +47,6 @@ export function animateEnvBubbles() {
             let acceleration = 0.000005;
             for (let i = 0; i < particleCount * 3; i += 3) {
                 array[i + 1] += Math.random() * speed;
-                // array[i] += Math.sin(array[i + 1] * Math.random() + i) * 0.003;
 
                 // Reset particles that reach top
                 if (array[i + 1] > 3) {
