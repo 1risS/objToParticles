@@ -3,25 +3,41 @@ import * as THREE from 'three';
 let particleCount, particles, positions;
 let _showBubbles = true;
 
-export function initBubbles(scene, pointMaterial) {
-    particleCount = 3000;
-    particles = new THREE.BufferGeometry();
-    positions = new Float32Array(particleCount * 3);
+export function initBubbles(scene) {
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('imgs/burbuja_sintransparencia.png', function (texture) {
+        const material = new THREE.PointsMaterial({
+            color: 'white',
+            size: 0.05,
+            map: texture,
+            //map: createCircleTexture(),
+            // transparent: true,
+            alphaTest: 0.5,
+            opacity: 1.0,
+            // -          blending: THREE.AdditiveBlending
+            // side: THREE.DoubleSide,
+            // opacity: 0.26,
+        });
 
-    for (let i = 0; i < particleCount * 3; i += 3) {
-        const x = Math.random() * 2 - 1;
-        const y = Math.random() * 0.9 + -1.5;
-        const z = Math.random() * 2 - 1;
+        particleCount = 3000;
+        particles = new THREE.BufferGeometry();
+        positions = new Float32Array(particleCount * 3);
 
-        positions[i] = x;
-        positions[i + 1] = y;
-        positions[i + 2] = z;
-    }
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            const x = Math.random() * 2 - 1;
+            const y = Math.random() * 0.9 + -1.5;
+            const z = Math.random() * 2 - 1;
 
-    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            positions[i] = x;
+            positions[i + 1] = y;
+            positions[i + 2] = z;
+        }
 
-    const particleSystem = new THREE.Points(particles, pointMaterial);
-    scene.add(particleSystem);
+        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const particleSystem = new THREE.Points(particles, material);
+        scene.add(particleSystem);
+    })
 }
 
 export function showBubbles() {

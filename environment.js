@@ -10,10 +10,11 @@ export let renderer;
 export function create3dEnvironment(animate) {
     // camara
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.set(0, 0, 3);
+    camera.position.set(0, 0.5, 4);
 
     //escena
     scene = new THREE.Scene();
+    scene.position.set(0, -0.5, 0)
 
     //luz
     const light = new THREE.AmbientLight(0x404040); // soft white light
