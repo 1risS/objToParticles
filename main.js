@@ -1,7 +1,7 @@
 import { animateEnvBubbles, initEnvBubbles } from './envBubbles.js';
 import { animateBubbles, initBubbles } from './initBubbles.js';
 
-import * as bubbles from './bubbles2.js';
+import * as bubbles from './bubbles.js';
 import * as env from './environment.js';
 import * as models from './models.js';
 import * as textures from './textures.js';
