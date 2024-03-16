@@ -12,11 +12,11 @@ const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSeg
 
 export function create(scene, texture, totalBubbles) {
     bubbleGroup = new THREE.Group();
-       bubbleGroup.scale.setScalar(6);
-       bubbleGroup.rotation.x = Math.PI * 0.5;
+    // bubbleGroup.scale.setScalar(6);
+    // bubbleGroup.rotation.x = Math.PI * 0.5;
     scene.add(bubbleGroup);
 
-    
+
     for (let i = 0; i < totalBubbles; i++) {
         const material = new THREE.MeshBasicMaterial({
             color: 0xffffff,
@@ -40,7 +40,7 @@ export function create(scene, texture, totalBubbles) {
         destinations.push(new THREE.Vector3(x, y, z))
     }
     console.log('bubbles.length:', bubbles.length);
-} 
+}
 
 export function setPointsPositions(pointsArray) {
     destinations = []
@@ -55,14 +55,18 @@ export function update() {
             bubble.position.lerp(destination, bubbleVelocity);
 
 
-            
+
             // if (bubble.position.y < 0) {
             //     bubble.material.color.set(0xff0000)
             // } else {
             //     bubble.material.color.set(0xffffff)
             // }
         } else {
-            bubble.position.set(1000, 1000, 1000);
+            // bubble.position.set(1000, 1000, 1000);
+
+            let index2 = index % destinations.length
+            const destination = destinations[index2];
+            bubble.position.lerp(destination, bubbleVelocity);
         }
     });
 }

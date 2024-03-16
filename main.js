@@ -37,7 +37,7 @@ function animate() {
   // applyRandom(bubbles.bubbles)
   noise.applyNoise(bubbles.bubbles)
   // noise.applyNoise2(bubbles.bubbles)
-  waves.update(bubbles.bubbles)
+  waves.update2(bubbles.bubbles)
 
   // animateInitBubbles();
   animateEnvBubbles();
@@ -62,7 +62,7 @@ function onKeyPress(event) {
       break;
     case '4':
       console.log('4');
-      waves.apply(0.01)
+      waves.start()
 
       break;
     default:
