@@ -17,9 +17,10 @@ async function init() {
   // sparkling.setup(bubbles.faceMesh, env.scene)
 
   // Load models
-  await models.load('meshes/doja_67.glb', 'cara')
+  await models.load('meshes/idle.glb', 'idle')
+  await models.load('meshes/doja_70.glb', 'cara')
   await models.load('meshes/oreja.glb', 'oreja')
-  await models.load('meshes/mano_2.glb', 'pulgar')
+  await models.load('meshes/mano.glb', 'pulgar')
 
   // bubbles
   const bubbleTexture = await textures.load('imgs/burbuja_sintransparencia.png');
@@ -48,19 +49,24 @@ function onKeyPress(event) {
   switch (event.key) {
     case '1':
       console.log('1');
-      bubbles.setPointsPositions(models.getPointsArray('cara'));
+      bubbles.setPointsPositions(models.getPointsArray('idle'));
 
       break;
     case '2':
       console.log('2');
-      bubbles.setPointsPositions(models.getPointsArray('oreja'));
+      bubbles.setPointsPositions(models.getPointsArray('cara'));
       break;
     case '3':
+      console.log('3');
+      bubbles.setPointsPositions(models.getPointsArray('oreja'));
+
+      break;
+    case '4':
       console.log('3');
       bubbles.setPointsPositions(models.getPointsArray('pulgar'));
 
       break;
-    case '4':
+    case '5':
       console.log('4');
       waves.start()
 
